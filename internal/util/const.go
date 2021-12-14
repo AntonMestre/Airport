@@ -12,16 +12,7 @@ const TOPIC_TEMP = "topic/temp"
 const TOPIC_PRESSURE = "topic/pressure"
 
 const HOST = "tcp://localhost:1883"
-const CLIENT_TEMP_PUB = "CLIENT_TEMP_PUB"
-const CLIENT_PRESSURE_PUB = "CLIENT_PRESSURE_PUB"
-const CLIENT_WIND_PUB = "CLIENT_WIND_PUB"
 const CLIENT_DATABASE_SUB = "CLIENT_DATABASE_SUB"
-
-const ID_CAPTOR_WIND = 1
-const ID_CAPTOR_TEMP = 2
-const ID_CAPTOR_PRESSURE = 3
-
-const IATA_CODE = "TLS"
 
 type Config struct {
 	Nature   string `json:"nature"`
