@@ -1,0 +1,10 @@
+{
+  "nature": "Wind speed",
+  "iatacode": "CDG",
+  "idsensor": 1,
+  "broker": "topic/wind",
+  "host": "tcp://localhost:1883",
+  "port": 1883,
+  "qoslevel": 2,
+  "clientId": "CLIENT_WIND_PUB"
+}

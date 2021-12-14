@@ -2,8 +2,10 @@ package tools
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"math/rand"
+	"os"
 	"time"
 	"util"
 
@@ -38,4 +40,19 @@ func Connect(brokerURI string, clientId string) mqtt.Client {
 		log.Fatal(err)
 	}
 	return client
+}
+
+func ReadFile(filename string) []byte {
+	jsonfile, err := os.Open("../../internal/util/" + filename + ".json")
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer jsonfile.Close()
+	bytevalue, err := ioutil.ReadFile(jsonfile.Name())
+	if err != nil {
+		fmt.Println(err)
+	}
+	return bytevalue
 }

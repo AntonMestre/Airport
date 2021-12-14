@@ -1,0 +1,10 @@
+{
+  "nature": "Temperature",
+  "iatacode": "CDG",
+  "idsensor": 2,
+  "broker": "topic/temp",
+  "host": "tcp://localhost:1883",
+  "port": 1883,
+  "qoslevel": 2,
+  "clientId": "CLIENT_TEMP_PUB"
+}

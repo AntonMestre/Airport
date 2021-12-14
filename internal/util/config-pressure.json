@@ -1,0 +1,10 @@
+{
+  "nature": "Atmospheric Pressure",
+  "iatacode": "CDG",
+  "idsensor": 3,
+  "broker": "topic/pressure",
+  "host": "tcp://localhost:1883",
+  "port": 1883,
+  "qoslevel": 2,
+  "clientId": "CLIENT_PRESSURE_PUB"
+}

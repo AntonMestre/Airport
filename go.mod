@@ -4,8 +4,8 @@ go 1.17
 
 require (
 	github.com/eclipse/paho.mqtt.golang v1.3.5
-	util v1.0.0
 	tools v1.0.0
+	util v1.0.0
 )
 
 require (
@@ -14,4 +14,5 @@ require (
 )
 
 replace util v1.0.0 => ./internal/util
+
 replace tools v1.0.0 => ./internal/tools
