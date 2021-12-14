@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 	"tools"
@@ -9,11 +10,15 @@ import (
 
 func main() {
 
-	client := tools.Connect(util.HOST, util.CLIENT_TEMP_PUB)
+	values := tools.ReadFile("config-temp")
+	var config util.Config
+	json.Unmarshal(values, &config)
+
+	client := tools.Connect(config.Host, config.ClientId)
 
 	for {
-		client.Publish(util.TOPIC_TEMP, 2, false, fmt.Sprintf("%d | %s | %s | %d | %s",
-			util.ID_CAPTOR_TEMP, util.IATA_CODE, "Temperature", tools.TempNumberGenerator(), time.Now()))
+		client.Publish(config.Broker, config.Qoslevel, false, fmt.Sprintf("%d | %s | %s |%d | %s",
+			config.IdSensor, config.IataCode, config.Nature, tools.TempNumberGenerator(), time.Now()))
 		time.Sleep(time.Second * 10)
 	}
 

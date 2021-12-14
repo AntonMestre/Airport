@@ -22,3 +22,14 @@ const ID_CAPTOR_TEMP = 2
 const ID_CAPTOR_PRESSURE = 3
 
 const IATA_CODE = "TLS"
+
+type Config struct {
+	Nature   string `json:"nature"`
+	IataCode string `json:"iatacode"`
+	IdSensor byte   `json:"idsensor"`
+	Broker   string `json:"broker"`
+	Host     string `json:"host"`
+	Port     int    `json:"port"`
+	Qoslevel byte   `json:"qoslevel"`
+	ClientId string `json:"clientId"`
+}
