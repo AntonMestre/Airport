@@ -6,12 +6,14 @@ import (
 	"net/http"
 	"time"
 	"tools"
+	"util"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+// Structures
 type DataFormat struct {
 	ID          primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
 	IdCaptor    int                `json:"idCaptor,omitempty" bson:"idCaptor,omitempty"`
@@ -20,45 +22,46 @@ type DataFormat struct {
 	PickingDate time.Time          `json:"pickingDate,omitempty" bson:"pickingDate,omitempty"`
 }
 
-type AverageCaptor struct {
+type AverageSensor struct {
 	Name    string
 	Average int
 }
 
-var captorsNamesInDb = []string{"Pressure", "Temp", "Wind"}
-
+//Global vars for the API
+var sensorsNamesInDb = util.SENSORS_NAMES
 var dbClient *mongo.Client
 
-func InitApiDatabaseVar(myDbClient *mongo.Client) {
+// Init dbClient
+func InitApiDatabaseClient(myDbClient *mongo.Client) {
 	dbClient = myDbClient
 }
 
+//Retrieve datas of specific sensor, between two dates
 func GetData(response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("Content-Type", "application/json")
 
 	//Retrieving query parameters
 	queryValues := request.URL.Query()
-	captor := queryValues.Get("captor")
+	sensor := queryValues.Get("sensor")
 	minDateQuery := queryValues.Get("minDate") + "+00:00"
 	maxDateQuery := queryValues.Get("maxDate") + "+00:00"
 
-	if !tools.StringInSlice(captor, captorsNamesInDb) {
+	if !tools.StringInSlice(sensor, sensorsNamesInDb) {
 		response.WriteHeader(http.StatusInternalServerError)
-		response.Write([]byte(`{ "message": "` + "Wrong captor name" + `"}`))
+		response.Write([]byte(`{ "message": "` + "Wrong sensor name" + `"}`))
 		return
 	}
 
 	//Converting dates to match mongodb date format
-	dateLayout := "2006-01-02T15:04:05.000+00:00" //golang time layout in mongodb format
 
-	minDate, err := time.Parse(dateLayout, minDateQuery)
+	minDate, err := time.Parse(util.DATE_LAYOUT, minDateQuery)
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
 		response.Write([]byte(`{ "message": "` + err.Error() + `"}`))
 		return
 	}
 
-	maxDate, err := time.Parse(dateLayout, maxDateQuery)
+	maxDate, err := time.Parse(util.DATE_LAYOUT, maxDateQuery)
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
 		response.Write([]byte(`{ "message": "` + err.Error() + `"}`))
@@ -67,7 +70,7 @@ func GetData(response http.ResponseWriter, request *http.Request) {
 
 	//Retrieving collection from mongodb
 	var dataSet []DataFormat
-	collection := dbClient.Database("AirportDataBase").Collection(captor)
+	collection := dbClient.Database(util.DATABASE_NAME).Collection(sensor)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -98,6 +101,7 @@ func GetData(response http.ResponseWriter, request *http.Request) {
 	json.NewEncoder(response).Encode(dataSet)
 }
 
+//Get the mean value of all sensors from a specifi day
 func GetMean(response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("Content-Type", "application/json")
 
@@ -106,28 +110,27 @@ func GetMean(response http.ResponseWriter, request *http.Request) {
 	dateQuery := queryValues.Get("date")
 
 	//Converting dates to match mongodb date format
-	dateLayout := "2006-01-02T15:04:05.000+00:00" //golang time layout in mongodb format
 	minDateQuery := dateQuery + "T00:00:00.000+00:00"
 	maxDateQuery := dateQuery + "T23:59:59.999+00:00"
 
-	minDate, err := time.Parse(dateLayout, minDateQuery)
+	minDate, err := time.Parse(util.DATE_LAYOUT, minDateQuery)
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
 		response.Write([]byte(`{ "message": "` + err.Error() + `"}`))
 		return
 	}
 
-	maxDate, err := time.Parse(dateLayout, maxDateQuery)
+	maxDate, err := time.Parse(util.DATE_LAYOUT, maxDateQuery)
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
 		response.Write([]byte(`{ "message": "` + err.Error() + `"}`))
 		return
 	}
 
-	dataSet := make(map[string]AverageCaptor)
+	dataSet := make(map[string]AverageSensor)
 	//Retrieving collection from mongodb
-	for i := 0; i < len(captorsNamesInDb); i++ {
-		cursor, ctx := getCollection(captorsNamesInDb[i], minDate, maxDate)
+	for i := 0; i < len(sensorsNamesInDb); i++ {
+		cursor, ctx := getCollection(sensorsNamesInDb[i], minDate, maxDate)
 		totalValue := 0
 		nbRow := 0
 
@@ -147,16 +150,17 @@ func GetMean(response http.ResponseWriter, request *http.Request) {
 			return
 		}
 
-		data := AverageCaptor{captorsNamesInDb[i], totalValue / nbRow}
+		data := AverageSensor{sensorsNamesInDb[i], totalValue / nbRow}
 
-		dataSet[captorsNamesInDb[i]] = data
+		dataSet[sensorsNamesInDb[i]] = data
 	}
 
 	json.NewEncoder(response).Encode(dataSet)
 }
 
+//returns the cursor of the collection whose name is passed as a parameter
 func getCollection(name string, minDate time.Time, maxDate time.Time) (*mongo.Cursor, context.Context) {
-	collection := dbClient.Database("AirportDataBase").Collection(name)
+	collection := dbClient.Database(util.DATABASE_NAME).Collection(name)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()

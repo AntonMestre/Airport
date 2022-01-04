@@ -14,6 +14,14 @@ const TOPIC_PRESSURE = "topic/pressure"
 const HOST = "tcp://localhost:1883"
 const CLIENT_DATABASE_SUB = "CLIENT_DATABASE_SUB"
 
+//API
+const API_URI = ":3000"
+const DATABASE_CLOUD_URI = "mongodb+srv://Airport:Airport@cluster0.0c6je.mongodb.net/AirportDataBase?retryWrites=true&w=majority"
+const DATABASE_NAME = "AirportDataBase"
+
+const DATE_LAYOUT = "2006-01-02T15:04:05.000+00:00" //golang time layout in mongodb format
+var SENSORS_NAMES = []string{"Pressure", "Temp", "Wind"}
+
 type Config struct {
 	Nature   string `json:"nature"`
 	IataCode string `json:"iatacode"`

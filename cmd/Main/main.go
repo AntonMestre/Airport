@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"net/http"
+	"util"
 
 	"github.com/AntonMestre/AirportProject/cmd/Main/api"
 	"github.com/gorilla/mux"
@@ -17,19 +18,19 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	var err error
-	dbClient, err = mongo.Connect(ctx, options.Client().ApplyURI("mongodb+srv://Airport:Airport@cluster0.0c6je.mongodb.net/AirportDataBase?retryWrites=true&w=majority"))
+	dbClient, err = mongo.Connect(ctx, options.Client().ApplyURI(util.DATABASE_CLOUD_URI))
 	defer func() {
 		if err = dbClient.Disconnect(ctx); err != nil {
 			panic(err)
 		}
 	}()
 
-	api.InitApiDatabaseVar(dbClient)
+	api.InitApiDatabaseClient(dbClient)
 
 	//Route
 	router := mux.NewRouter()
 	router.HandleFunc("/data", api.GetData).Methods("GET")
 	router.HandleFunc("/mean", api.GetMean).Methods("GET")
 
-	http.ListenAndServe(":3000", router)
+	http.ListenAndServe(util.API_URI, router)
 }
