@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"time"
 	"tools"
@@ -23,9 +24,9 @@ type DataFormat struct {
 }
 
 var dbClient *mongo.Client
+var captorsNamesInDb = []string{"Pressure", "Temp", "Wind"}
 
 func main() {
-
 	//Connection to MongoDB
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -40,14 +41,13 @@ func main() {
 	//Route
 	router := mux.NewRouter()
 	router.HandleFunc("/data", GetData).Methods("GET")
+	router.HandleFunc("/mean", GetMean).Methods("GET")
 
-	http.ListenAndServe(":1883", router)
+	http.ListenAndServe(":3000", router)
 }
 
 func GetData(response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("Content-Type", "application/json")
-
-	var captorsNamesInDb = []string{"Pressure", "Temp", "Wind"}
 
 	//Retrieving query parameters
 	queryValues := request.URL.Query()
@@ -92,6 +92,75 @@ func GetData(response http.ResponseWriter, request *http.Request) {
 		response.Write([]byte(`{ "message": "` + err.Error() + `"}`))
 		return
 	}
+
+	defer cursor.Close(ctx)
+
+	//Parsing dataset
+	for cursor.Next(ctx) {
+		var data DataFormat
+		cursor.Decode(&data)
+		dataSet = append(dataSet, data)
+	}
+
+	if err := cursor.Err(); err != nil {
+		response.WriteHeader(http.StatusInternalServerError)
+		response.Write([]byte(`{ "message": "` + err.Error() + `"}`))
+		return
+	}
+
+	json.NewEncoder(response).Encode(dataSet)
+}
+
+func GetMean(response http.ResponseWriter, request *http.Request) {
+	response.Header().Add("Content-Type", "application/json")
+
+	//Retrieving query parameters
+	queryValues := request.URL.Query()
+	dateQuery := queryValues.Get("date")
+
+	//Converting dates to match mongodb date format
+	dateLayout := "2006-01-02T15:04:05.000+00:00" //golang time layout in mongodb format
+	minDateQuery := dateQuery + "T00:00:00.000+00:00"
+	maxDateQuery := dateQuery + "T23:59:59.999+00:00"
+
+	minDate, err := time.Parse(dateLayout, minDateQuery)
+	if err != nil {
+		response.WriteHeader(http.StatusInternalServerError)
+		response.Write([]byte(`{ "message": "` + err.Error() + `"}`))
+		return
+	}
+
+	maxDate, err := time.Parse(dateLayout, maxDateQuery)
+	if err != nil {
+		response.WriteHeader(http.StatusInternalServerError)
+		response.Write([]byte(`{ "message": "` + err.Error() + `"}`))
+		return
+	}
+
+	//Retrieving collection from mongodb
+	var dataSet []DataFormat
+	collection := dbClient.Database("AirportDataBase").Collection("Pressure")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	matchStage := bson.D{{"$match", bson.M{"pickingDate": bson.M{"$gt": minDate, "$lt": maxDate}}}}
+	groupStage := bson.D{{"$group", bson.D{{"idCaptor", "$idCaptor"}, {"total", bson.D{{"$sum", "$value"}}}}}}
+
+	cursor, err := collection.Aggregate(ctx, mongo.Pipeline{matchStage, groupStage})
+	// cursor, err := collection.Find(ctx, bson.M{"pickingDate": bson.M{"$gt": minDate, "$lt": maxDate}})
+
+	if err != nil {
+		response.WriteHeader(http.StatusInternalServerError)
+		response.Write([]byte(`{ "message": "` + err.Error() + `"}`))
+		return
+	}
+
+	var showsWithInfo []bson.M
+	if err = cursor.All(ctx, &showsWithInfo); err != nil {
+		panic(err)
+	}
+	fmt.Println(showsWithInfo)
 
 	defer cursor.Close(ctx)
 
