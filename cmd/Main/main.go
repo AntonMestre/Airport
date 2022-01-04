@@ -23,6 +23,11 @@ type DataFormat struct {
 	PickingDate time.Time          `json:"pickingDate,omitempty" bson:"pickingDate,omitempty"`
 }
 
+type AverageCaptor struct {
+	Name    string
+	Average int
+}
+
 var dbClient *mongo.Client
 var captorsNamesInDb = []string{"Pressure", "Temp", "Wind"}
 
@@ -137,45 +142,49 @@ func GetMean(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
+	dataSet := make(map[string]AverageCaptor)
 	//Retrieving collection from mongodb
-	var dataSet []DataFormat
-	collection := dbClient.Database("AirportDataBase").Collection("Pressure")
+	for i := 0; i < len(captorsNamesInDb); i++ {
+		cursor, ctx := getCollection(captorsNamesInDb[i], minDate, maxDate)
+		totalValue := 0
+		nbRow := 0
+
+		//Parsing dataset
+		for cursor.Next(ctx) {
+			var data DataFormat
+			cursor.Decode(&data)
+			totalValue += data.Value
+			nbRow++
+		}
+
+		defer cursor.Close(ctx)
+
+		if err := cursor.Err(); err != nil {
+			response.WriteHeader(http.StatusInternalServerError)
+			response.Write([]byte(`{ "message": "` + err.Error() + `"}`))
+			return
+		}
+
+		data := AverageCaptor{captorsNamesInDb[i], totalValue / nbRow}
+
+		dataSet[captorsNamesInDb[i]] = data
+		fmt.Println(dataSet)
+	}
+
+	json.NewEncoder(response).Encode(dataSet)
+}
+
+func getCollection(name string, minDate time.Time, maxDate time.Time) (*mongo.Cursor, context.Context) {
+	collection := dbClient.Database("AirportDataBase").Collection(name)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	matchStage := bson.D{{"$match", bson.M{"pickingDate": bson.M{"$gt": minDate, "$lt": maxDate}}}}
-	groupStage := bson.D{{"$group", bson.D{{"idCaptor", "$idCaptor"}, {"total", bson.D{{"$sum", "$value"}}}}}}
-
-	cursor, err := collection.Aggregate(ctx, mongo.Pipeline{matchStage, groupStage})
-	// cursor, err := collection.Find(ctx, bson.M{"pickingDate": bson.M{"$gt": minDate, "$lt": maxDate}})
+	cursor, err := collection.Find(ctx, bson.M{"pickingDate": bson.M{"$gt": minDate, "$lt": maxDate}})
 
 	if err != nil {
-		response.WriteHeader(http.StatusInternalServerError)
-		response.Write([]byte(`{ "message": "` + err.Error() + `"}`))
-		return
+		return nil, nil
 	}
 
-	var showsWithInfo []bson.M
-	if err = cursor.All(ctx, &showsWithInfo); err != nil {
-		panic(err)
-	}
-	fmt.Println(showsWithInfo)
-
-	defer cursor.Close(ctx)
-
-	//Parsing dataset
-	for cursor.Next(ctx) {
-		var data DataFormat
-		cursor.Decode(&data)
-		dataSet = append(dataSet, data)
-	}
-
-	if err := cursor.Err(); err != nil {
-		response.WriteHeader(http.StatusInternalServerError)
-		response.Write([]byte(`{ "message": "` + err.Error() + `"}`))
-		return
-	}
-
-	json.NewEncoder(response).Encode(dataSet)
+	return cursor, ctx
 }
