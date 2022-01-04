@@ -3,9 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
-	"time"
 	"tools"
 	"util"
+	"strings"
+	"strconv"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"go.mongodb.org/mongo-driver/bson"
@@ -39,7 +40,15 @@ func main() {
 			collection = dbClient.Database("AirportDataBase").Collection("Pressure")
 		}
 
-		res, err := collection.InsertOne(ctx, bson.D{{"idCaptor", 1}, {"iATA", "TLS"}, {"value", 40}, {"pickingDate", time.Now()}})
+
+		fmt.Println(msg.Payload())
+		value := msg.Payload()
+		data := strings.Split(string(value),"|")
+
+		fmt.Println(data)
+		strconv.Atoi("15256545")
+
+		res, err := collection.InsertOne(ctx, bson.D{{"idCaptor", data[0]}, {"iATA", data[1]}, {"value", data[3]}, {"pickingDate", data[4]}})
 		fmt.Printf("res  - %s\n", res)
 		fmt.Printf("err  - %s\n", err)
 	}
