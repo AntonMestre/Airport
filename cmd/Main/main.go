@@ -31,6 +31,7 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/data", api.GetData).Methods("GET")
 	router.HandleFunc("/mean", api.GetMean).Methods("GET")
+	router.HandleFunc("/airport", api.GetDataFromAirport).Methods("GET")
 
 	http.ListenAndServe(util.API_URI, router)
 }

@@ -20,6 +20,9 @@ const DATABASE_CLOUD_URI = "mongodb+srv://Airport:Airport@cluster0.0c6je.mongodb
 const DATABASE_NAME = "AirportDataBase"
 
 const DATE_LAYOUT = "2006-01-02T15:04:05.000+00:00" //golang time layout in mongodb format
+const MIN_DATE = "0000-01-01T00:00:00.000+00:00"
+const MAX_DATE = "9999-12-31T23:59:59.999+00:00"
+
 var SENSORS_NAMES = []string{"Pressure", "Temp", "Wind"}
 
 type Config struct {

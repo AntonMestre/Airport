@@ -36,6 +36,37 @@ func InitApiDatabaseClient(myDbClient *mongo.Client) {
 	dbClient = myDbClient
 }
 
+//returns the cursor of the collection whose name is passed as a parameter
+func getCollectionCursor(collectionName string, minDate time.Time, maxDate time.Time) (*mongo.Cursor, context.Context) {
+	collection := dbClient.Database(util.DATABASE_NAME).Collection(collectionName)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	cursor, err := collection.Find(ctx, bson.M{"pickingDate": bson.M{"$gt": minDate, "$lt": maxDate}})
+
+	if err != nil {
+		return nil, nil
+	}
+
+	return cursor, ctx
+}
+
+func getCollectionAirport(collectionName string, iata string) (*mongo.Cursor, context.Context) {
+	collection := dbClient.Database(util.DATABASE_NAME).Collection(collectionName)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	cursor, err := collection.Find(ctx, bson.M{"iATA": bson.M{"$eq": iata}})
+
+	if err != nil {
+		return nil, nil
+	}
+
+	return cursor, ctx
+}
+
 //Retrieve datas of specific sensor, between two dates
 func GetData(response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("Content-Type", "application/json")
@@ -70,18 +101,8 @@ func GetData(response http.ResponseWriter, request *http.Request) {
 
 	//Retrieving collection from mongodb
 	var dataSet []DataFormat
-	collection := dbClient.Database(util.DATABASE_NAME).Collection(sensor)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	cursor, err := collection.Find(ctx, bson.M{"pickingDate": bson.M{"$gt": minDate, "$lt": maxDate}})
-
-	if err != nil {
-		response.WriteHeader(http.StatusInternalServerError)
-		response.Write([]byte(`{ "message": "` + err.Error() + `"}`))
-		return
-	}
+	cursor, ctx := getCollectionCursor(sensor, minDate, maxDate)
 
 	defer cursor.Close(ctx)
 
@@ -130,7 +151,7 @@ func GetMean(response http.ResponseWriter, request *http.Request) {
 	dataSet := make(map[string]AverageSensor)
 	//Retrieving collection from mongodb
 	for i := 0; i < len(sensorsNamesInDb); i++ {
-		cursor, ctx := getCollection(sensorsNamesInDb[i], minDate, maxDate)
+		cursor, ctx := getCollectionCursor(sensorsNamesInDb[i], minDate, maxDate)
 		totalValue := 0
 		nbRow := 0
 
@@ -158,18 +179,36 @@ func GetMean(response http.ResponseWriter, request *http.Request) {
 	json.NewEncoder(response).Encode(dataSet)
 }
 
-//returns the cursor of the collection whose name is passed as a parameter
-func getCollection(name string, minDate time.Time, maxDate time.Time) (*mongo.Cursor, context.Context) {
-	collection := dbClient.Database(util.DATABASE_NAME).Collection(name)
+//Retrieve datas of specific sensor, between two dates
+func GetDataFromAirport(response http.ResponseWriter, request *http.Request) {
+	response.Header().Add("Content-Type", "application/json")
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
+	//Retrieving query parameters
+	queryValues := request.URL.Query()
+	airportIata := queryValues.Get("iATA")
 
-	cursor, err := collection.Find(ctx, bson.M{"pickingDate": bson.M{"$gt": minDate, "$lt": maxDate}})
+	//Retrieving collection from mongodb
+	dataSet := make(map[string][]DataFormat)
 
-	if err != nil {
-		return nil, nil
+	for i := 0; i < len(sensorsNamesInDb); i++ {
+		cursor, ctx := getCollectionAirport(sensorsNamesInDb[i], airportIata)
+		var tempDataSet []DataFormat
+
+		//Parsing dataset
+		for cursor.Next(ctx) {
+			var data DataFormat
+			cursor.Decode(&data)
+			tempDataSet = append(tempDataSet, data)
+		}
+
+		if err := cursor.Err(); err != nil {
+			response.WriteHeader(http.StatusInternalServerError)
+			response.Write([]byte(`{ "message": "` + err.Error() + `"}`))
+			return
+		}
+
+		dataSet[sensorsNamesInDb[i]] = tempDataSet
 	}
 
-	return cursor, ctx
+	json.NewEncoder(response).Encode(dataSet)
 }
