@@ -2,6 +2,8 @@
 
 GO project that retrieve and return weather data from airports sensors (temperature, wind speed and atmospheric pressure).
 
+https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white
+
 ## Built with
 - [Golang](https://go.dev/)
 - [Mosquitto](https://mosquitto.org/)
