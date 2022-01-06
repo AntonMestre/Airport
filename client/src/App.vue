@@ -1,11 +1,10 @@
 <template>
-  <Sidebar v-bind:airports="airports"></Sidebar>
-  <AirportVisualisation v-bind:iata-code="iataCode"></AirportVisualisation>
+  <Sidebar v-bind:airports="airports" id="sidebar"></Sidebar>
+  <AirportVisualisation v-bind:iata-code="iataCode" id="airportVisualisation"></AirportVisualisation>
 </template>
 
 <script>
 import Sidebar from "./components/Sidebar";
-import axios from "axios";
 import AirportVisualisation from "./components/AirportVisualisation";
 
 export default {
@@ -26,12 +25,34 @@ export default {
 </script>
 
 <style>
+
+body{
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #app{
+  width: 100%;
+  height: 100%;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  display: grid;
+  grid-template-columns: repeat(6,1fr);
+  grid-column-gap: 10px;
+  font-family: Cera Pro,sans-serif;
+  background-color: #f8f8f8;
+}
+
+#sidebar{
+  grid-column: 1;
+  grid-row: 1;
+  height: 100%;
+  background-color: white;
+}
+
+#airportVisualisation{
+  grid-column: 2/7;
+  grid-row: 1;
+  height: 100%;
 }
 </style>

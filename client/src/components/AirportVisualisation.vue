@@ -1,10 +1,12 @@
 <template>
-  <airport-header v-bind:airport-name="airportName" v-bind:last-update="lastUpdate"></airport-header>
-  <value-displayer v-bind:value-object="temperatureValue"></value-displayer>
-  <value-displayer v-bind:value-object="windValue"></value-displayer>
-  <value-displayer v-bind:value-object="pressureValue"></value-displayer>
-  <graph></graph>
-  <values-list v-bind:values-list="valuesList"></values-list>
+  <div>
+    <airport-header v-bind:airport-name="airportName" v-bind:last-update="lastUpdate"></airport-header>
+    <value-displayer v-bind:value-object="temperatureValue"></value-displayer>
+    <value-displayer v-bind:value-object="windValue"></value-displayer>
+    <value-displayer v-bind:value-object="pressureValue"></value-displayer>
+    <graph></graph>
+    <values-list v-bind:values-list="valuesList"></values-list>
+  </div>
 </template>
 
 <script>
@@ -44,5 +46,10 @@ export default {
 </script>
 
 <style scoped>
+  #airport-visualisation{
+    display: grid;
+    grid-template-rows: repeat(12,1fr);
+  }
+
 
 </style>
