@@ -1,7 +1,9 @@
 <template>
   <div>
-    <h1>airportName</h1>
-    <h4>Last update: {{lastUpdate[0]}} at {{lastUpdate[1]}}</h4>
+    <h1>Nantes Airport</h1>
+    <!-- <h4>Last update: {{lastUpdate[0]}} at {{lastUpdate[1]}}</h4> -->
+        <h4>Last update: 18/01/2022 at 13:45</h4>
+
   </div>
 </template>
 
@@ -17,5 +19,23 @@ export default {
 </script>
 
 <style scoped>
+  #airport-header{
+    text-align: center;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
 
+  h1{
+    margin: 0;
+    color: #4D70F1;
+    font-size: 50px;
+    font-weight: normal;
+  }
+
+  h4{
+    margin: 0;
+    color: #817777;
+    font-weight: lighter;
+
+  }
 </style>
