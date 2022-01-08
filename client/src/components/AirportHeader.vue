@@ -21,8 +21,8 @@ export default {
 <style scoped>
   #airport-header{
     text-align: center;
-    padding-top: 60px;
-    padding-bottom: 60px;
+    margin-top: 8vh;
+    margin-bottom: 8vh;
   }
 
   h1{

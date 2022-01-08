@@ -40,7 +40,8 @@ export default {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 30%;
+    width: 80%;
+    padding-top: 5px;
   }
 
   .values-container{

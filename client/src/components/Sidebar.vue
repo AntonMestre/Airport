@@ -8,36 +8,60 @@
         {{airport}}
       </div>-->
       <div class="airport">
-        <h4>LYS</h4>
-        <p>Lyon St Exupéry</p>
+        <div class="hover-truc"></div>
+        <div>
+          <h4>LYS</h4>
+          <p>Lyon St Exupéry</p>
+        </div>
       </div>
       <div class="airport">
-        <h4>LYS</h4>
-        <p>Lyon St Exupéry</p>
+        <div class="hover-truc"></div>
+        <div>
+          <h4>LYS</h4>
+          <p>Lyon St Exupéry</p>
+        </div>
       </div>
       <div class="airport">
-        <h4>LYS</h4>
-        <p>Lyon St Exupéry</p>
+        <div class="hover-truc"></div>
+        <div>
+          <h4>LYS</h4>
+          <p>Lyon St Exupéry</p>
+        </div>
       </div>
       <div class="airport">
-        <h4>CDG</h4>
-        <p>Paris Charles De Gaulle</p>
+        <div class="hover-truc"></div>
+        <div>
+          <h4>LYS</h4>
+          <p>Lyon St Exupéry</p>
+        </div>
       </div>
       <div class="airport">
-        <h4>LYS</h4>
-        <p>Lyon St Exupéry</p>
+        <div class="hover-truc"></div>
+        <div>
+          <h4>LYS</h4>
+          <p>Lyon St Exupéry</p>
+        </div>
       </div>
       <div class="airport">
-        <h4>CDG</h4>
-        <p>Paris Charles De Gaulle</p>
+        <div class="hover-truc"></div>
+        <div>
+          <h4>LYS</h4>
+          <p>Lyon St Exupéry</p>
+        </div>
       </div>
       <div class="airport">
-        <h4>LYS</h4>
-        <p>Lyon St Exupéry</p>
+        <div class="hover-truc"></div>
+        <div>
+          <h4>LYS</h4>
+          <p>Lyon St Exupéry</p>
+        </div>
       </div>
       <div class="airport">
-        <h4>CDG</h4>
-        <p>Paris Charles De Gaulle</p>
+        <div class="hover-truc"></div>
+        <div>
+          <h4>LYS</h4>
+          <p>Lyon St Exupéry</p>
+        </div>
       </div>
 
     </div>
@@ -90,9 +114,26 @@ export default {
   height: 90%;
 }
 
+.hover-truc{
+    background-color: white;
+    width: 0%;
+
+}
+
+.airport:hover .hover-truc{
+  background-color: #4D70F1;
+  width: 15%;
+  height: 120%;
+  border-radius: 0px 10px 10px 0px;
+  align-self: center;
+  transition:  0.5s;
+}
+
+
 .airport{
+  display: grid;
+  grid-template-columns: 15% 85%;
   color: #B4B4B4;
-  margin-left: 35px;
   margin-top: 15px;
   margin-bottom: 15px;
   padding-top: 6px;
