@@ -33,6 +33,9 @@ import ValueDisplayer from "./ValueDisplayer";
 import AirportHeader from "./AirportHeader";
 import GraphContainer from "./GraphContainer";
 import ValuesList from "./ValuesList";
+import axios from 'axios';
+
+let date = new Date();
 
 export default {
   name: "AirportVisualisation",
@@ -41,28 +44,31 @@ export default {
     iataCode: String
   },
 
+  mounted() {
+    axios
+      .get('http://localhost:3000/data',{
+        params: {
+          sensor: "Temperature",
+          minDate: date.toISOString().slice(0, 10) + "T" + date.toLocaleTimeString() + ".001",
+          maxDate: date.toISOString().slice(0, 10) + "T" + date.toLocaleTimeString() + ".001",
+        }
+      })
+      .then(response => console.log(response.data))
+      .catch (e => console.log(e))
+  },
+
   data: function () {
     return {
-      temperatureValue: {
-
-      },
-
-      windValue: {
-
-      },
-      pressureValue: {
-
-      },
-      airportName: {
-
-      },
-      lastUpdate: {
-
-      },
-      valuesList: [],
+      temperatureValue: null,
+      windValue: null,
+      pressureValue: null,
+      airportName: null,
+      lastUpdate: null,
+      valuesList: null,
     }
   }
 }
+
 </script>
 
 <style scoped>

@@ -123,7 +123,8 @@ export default {
 .airport:hover .hover-truc{
   background-color: #4D70F1;
   width: 15%;
-  height: 120%;
+  /* height: 120%; */
+  height: 25%;
   border-radius: 0px 10px 10px 0px;
   align-self: center;
   transition:  0.5s;
