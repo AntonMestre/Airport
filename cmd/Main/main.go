@@ -7,10 +7,10 @@ import (
 
 	"github.com/AntonMestre/AirportProject/cmd/Main/api"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/handlers"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
-
 var dbClient *mongo.Client
 
 func main() {
@@ -29,9 +29,11 @@ func main() {
 
 	//Route
 	router := mux.NewRouter()
-	router.HandleFunc("/data", api.GetData).Methods("GET")
-	router.HandleFunc("/mean", api.GetMean).Methods("GET")
-	router.HandleFunc("/airport", api.GetDataFromAirport).Methods("GET")
 
-	http.ListenAndServe(util.API_URI, router)
+	origins := handlers.AllowedOrigins([]string{"*"})
+	router.HandleFunc("/data", api.GetData).Methods("GET", "OPTIONS")
+	router.HandleFunc("/mean", api.GetMean).Methods("GET", "OPTIONS")
+  router.HandleFunc("/airport", api.GetDataFromAirport).Methods("GET", "OPTIONS")
+
+	http.ListenAndServe(util.API_URI, handlers.CORS(origins)(router))
 }
