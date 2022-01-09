@@ -37,13 +37,20 @@ func InitApiDatabaseClient(myDbClient *mongo.Client) {
 }
 
 //returns the cursor of the collection whose name is passed as a parameter
-func getCollectionCursor(collectionName string, minDate time.Time, maxDate time.Time) (*mongo.Cursor, context.Context) {
+func getCollectionCursor(collectionName string, minDate time.Time, maxDate time.Time, iata string) (*mongo.Cursor, context.Context) {
 	collection := dbClient.Database(util.DATABASE_NAME).Collection(collectionName)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	cursor, err := collection.Find(ctx, bson.M{"pickingDate": bson.M{"$gt": minDate, "$lt": maxDate}})
+	var cursor *mongo.Cursor
+	var err error
+
+	if iata == "" {
+		cursor, err = collection.Find(ctx, bson.M{"pickingDate": bson.M{"$gt": minDate, "$lt": maxDate}})
+	} else {
+		cursor, err = collection.Find(ctx, bson.M{"pickingDate": bson.M{"$gt": minDate, "$lt": maxDate}, "iATA": bson.M{"$eq": iata}})
+	}
 
 	if err != nil {
 		return nil, nil
@@ -74,6 +81,7 @@ func GetData(response http.ResponseWriter, request *http.Request) {
 	//Retrieving query parameters
 	queryValues := request.URL.Query()
 	sensor := queryValues.Get("sensor")
+	iata := queryValues.Get("iATA")
 	minDateQuery := queryValues.Get("minDate") + "+00:00"
 	maxDateQuery := queryValues.Get("maxDate") + "+00:00"
 
@@ -102,7 +110,7 @@ func GetData(response http.ResponseWriter, request *http.Request) {
 	//Retrieving collection from mongodb
 	var dataSet []DataFormat
 
-	cursor, ctx := getCollectionCursor(sensor, minDate, maxDate)
+	cursor, ctx := getCollectionCursor(sensor, minDate, maxDate, iata)
 
 	defer cursor.Close(ctx)
 
@@ -122,13 +130,14 @@ func GetData(response http.ResponseWriter, request *http.Request) {
 	json.NewEncoder(response).Encode(dataSet)
 }
 
-//Get the mean value of all sensors from a specifi day
+//Get the mean value of all sensors from a specific day
 func GetMean(response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("Content-Type", "application/json")
 
 	//Retrieving query parameters
 	queryValues := request.URL.Query()
 	dateQuery := queryValues.Get("date")
+	iata := queryValues.Get("iATA")
 
 	//Converting dates to match mongodb date format
 	minDateQuery := dateQuery + "T00:00:00.000+00:00"
@@ -151,7 +160,7 @@ func GetMean(response http.ResponseWriter, request *http.Request) {
 	dataSet := make(map[string]AverageSensor)
 	//Retrieving collection from mongodb
 	for i := 0; i < len(sensorsNamesInDb); i++ {
-		cursor, ctx := getCollectionCursor(sensorsNamesInDb[i], minDate, maxDate)
+		cursor, ctx := getCollectionCursor(sensorsNamesInDb[i], minDate, maxDate, iata)
 		totalValue := 0
 		nbRow := 0
 
@@ -171,15 +180,18 @@ func GetMean(response http.ResponseWriter, request *http.Request) {
 			return
 		}
 
-		data := AverageSensor{sensorsNamesInDb[i], totalValue / nbRow}
+		if nbRow == 0 {
+			continue
+		}
 
+		data := AverageSensor{sensorsNamesInDb[i], totalValue / nbRow}
 		dataSet[sensorsNamesInDb[i]] = data
 	}
 
 	json.NewEncoder(response).Encode(dataSet)
 }
 
-//Retrieve datas of specific sensor, between two dates
+//Retrieve datas of specific airport
 func GetDataFromAirport(response http.ResponseWriter, request *http.Request) {
 	response.Header().Add("Content-Type", "application/json")
 
