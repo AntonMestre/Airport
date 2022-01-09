@@ -29,9 +29,11 @@ func main() {
 
 	//Route
 	router := mux.NewRouter()
+
 	origins := handlers.AllowedOrigins([]string{"*"})
 	router.HandleFunc("/data", api.GetData).Methods("GET", "OPTIONS")
 	router.HandleFunc("/mean", api.GetMean).Methods("GET", "OPTIONS")
+  router.HandleFunc("/airport", api.GetDataFromAirport).Methods("GET", "OPTIONS")
 
 	http.ListenAndServe(util.API_URI, handlers.CORS(origins)(router))
 }
