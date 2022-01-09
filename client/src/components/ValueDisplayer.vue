@@ -1,17 +1,19 @@
 <template>
-  <div>
-    <!-- <h1>{{valueObject.name}}</h1>
-    <h2>{{valueObject.currentValue}} {{unit}}</h2>
-    <h4>{{valueObject.avgValue}} {{unit}}</h4> -->
-    <img src="@/assets/temperature.png" alt="">
+  <div v-if="valueObject != null">
+    <img :src="require(`@/assets/${valueObject.name}.png`)" :alt=valueObject.name>
     <div class="values-container">
-      <h3>Temperature</h3>
-      <div class="values">
-        <p class="current">12 °C</p>
-        <p class="separator">|</p>
-        <p class="avg"> 10 °C avg</p>
+      <div v-if="valueObject != null">
+        <h3>{{valueObject.name}}</h3>
+        <div class="values">
+          <p class="current">{{valueObject.currentValue}} {{valueObject.unit}}</p>
+          <p class="separator">|</p>
+          <p class="avg"> {{valueObject.avgValue}}  {{valueObject.unit}} avg</p>
+        </div>
       </div>
     </div>
+  </div>
+  <div v-else>
+    <p id="error">Rien a afficher</p>
   </div>
 </template>
 
@@ -81,5 +83,10 @@ export default {
     font-weight: lighter;
     margin-left: 15px;
     margin-right: 15px;
+  }
+
+  #error{
+    font-size: 20px;
+    font-weight: lighter;
   }
 </style>

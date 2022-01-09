@@ -45,16 +45,9 @@ export default {
   },
 
   mounted() {
-    axios
-      .get('http://localhost:3000/data',{
-        params: {
-          sensor: "Temperature",
-          minDate: date.toISOString().slice(0, 10) + "T" + date.toLocaleTimeString() + ".001",
-          maxDate: date.toISOString().slice(0, 10) + "T" + date.toLocaleTimeString() + ".001",
-        }
-      })
-      .then(response => console.log(response.data))
-      .catch (e => console.log(e))
+    this.fetchData("Temp");
+    this.fetchData("Wind");
+    this.fetchData("Pressure");
   },
 
   data: function () {
@@ -64,9 +57,112 @@ export default {
       pressureValue: null,
       airportName: null,
       lastUpdate: null,
-      valuesList: null,
+      valuesList: {},
     }
-  }
+  },
+
+  methods: {
+
+    // Temperature data --------------
+    mapTempData(data){
+      let lastData = data[data.length-1];
+      this.temperatureValue = {
+        name: "Temperature",
+        currentValue: lastData.value,
+        avgValue: 12, //Faire la requete API
+        unit: "°C"
+      };
+
+      data.forEach(d => {
+        let date = d.pickingDate.slice(0,19);
+        if (date in this.valuesList) {
+          this.valuesList[date].temp = d.value; 
+        }
+        else{
+          this.valuesList[date] = {
+            pressure: null,
+            wind: null,
+            temp: d.value,
+          }
+        }
+      })
+    },
+  
+
+    // Wind data --------------
+    mapWindData(data){
+      let lastData = data[data.length-1];
+      this.windValue = {
+        name: "Wind",
+        currentValue: lastData.value,
+        avgValue: 12, //Faire la requete API
+        unit: "km/h"
+      };
+
+      data.forEach(d => {
+        let date = d.pickingDate.slice(0,19);
+        if (date in this.valuesList) {
+          this.valuesList[date].wind = d.value; 
+        }
+        else{
+          this.valuesList[date] = {
+            pressure: null,
+            wind: d.value,
+            temp: null,
+          }
+        }
+      })
+    },
+
+    // Pressure data --------------
+    mapPressureData(data){
+      let lastData = data[data.length-1];
+      this.pressureValue = {
+        name: "Pressure",
+        currentValue: lastData.value,
+        avgValue: 12, //Faire la requete API
+        unit: "hPa"
+      };
+
+      data.forEach(d => {
+        let date = d.pickingDate.slice(0,19);
+        if (date in this.valuesList) {
+          this.valuesList[date].pressure = d.value; 
+        }
+        else{
+          this.valuesList[date] = {
+            pressure: d.value,
+            wind: null,
+            temp: null,
+          }
+        }
+      })
+    },
+
+    fetchData(type){
+      let data = null;
+      axios
+          .get('http://localhost:3000/data',{
+            params: {
+              sensor: type,
+              // minDate: date.toISOString().slice(0, 10) + "T00:00:00.000",
+              // maxDate: date.toISOString().slice(0, 10) + "T23:59:59.999",
+              minDate: "2021-12-23T14:57:49.076",
+              maxDate: "2021-12-29T15:16:29.801",
+            }
+          })
+          .then(response => data = response.data)
+          .catch(e => console.log(e))
+          .finally(() => {
+            if(type == "Temp")
+              this.mapTempData(data)
+            else if (type == "Wind")
+              this.mapWindData(data)
+            else if (type == "Pressure")
+              this.mapPressureData(data)
+          })
+    },
+  },
 }
 
 </script>
