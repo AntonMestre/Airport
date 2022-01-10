@@ -10,14 +10,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(value,key) in valuesList" :key="value">
-          <td v-if="value.pressure != null">{{value.pressure}} hPa</td>
+        <tr v-for="value in valuesList" :key="value">
+          <td v-if="value[1] != null">{{value[1]}} hPa</td>
           <td v-else></td>
-          <td v-if="value.wind != null">{{value.wind}} km/h</td>
+          <td v-if="value[2] != null">{{value[2]}} km/h</td>
           <td v-else></td>          
-          <td v-if="value.temp != null">{{value.temp}} °C</td>
+          <td v-if="value[3] != null">{{value[3]}} °C</td>
           <td v-else></td>  
-          <td>{{key.slice(11)}}</td>
+          <td>{{value[0].toTimeString().slice(0,8)}}</td>
         </tr>
       </tbody>
     </table>
@@ -31,18 +31,23 @@ export default {
     valuesList: Object,
   },
 
-  mounted() {
-    this.sortValuesList();
-  },
 
   methods: {
     sortValuesList(){
       let valuesListArray = [];
-      for(a in this.valuesList){
-        valuesListArray.push([new Date().setTime(e.slice(11)),tihs.valuesList[a]])
+      for (const [key, value] of Object.entries(this.valuesList)){
+        console.log(1);
+        valuesListArray.push("a");
       }
+      console.log( this.valuesList);
     }
   },
+  
+  watch: {
+    valuesList(val, oldval){
+      this.sortValuesList();
+    }
+  }
 }
 
 </script>

@@ -23,7 +23,7 @@
       <h2>
         Last readings
       </h2>
-      <values-list v-bind:values-list="valuesList"></values-list>
+      <values-list v-bind:values-list="sortValuesList(valuesList)"></values-list>
     </div>
   </div>
 </template>
@@ -163,6 +163,14 @@ export default {
               this.mapPressureData(data)
           })
     },
+    sortValuesList(valuesList){
+      let valuesListArray = [];
+      for (const [key, value] of Object.entries(valuesList)){
+        let currDate = new Date(key.slice(0,19));
+        valuesListArray.push([currDate, value.pressure, value.wind, value.temp]);
+      }
+      return valuesListArray.sort().reverse();
+    }
   },
 }
 
