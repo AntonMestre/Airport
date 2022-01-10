@@ -59,7 +59,7 @@ export default {
   }
 
   table{
-    padding-top: 15px;
+    margin-top: 15px;
   }
 
   thead td{

@@ -1,6 +1,6 @@
 <template>
   <Sidebar v-bind:airports="airports" id="sidebar"></Sidebar>
-  <AirportVisualisation v-bind:iata-code="iataCode" id="airportVisualisation"></AirportVisualisation>
+  <AirportVisualisation v-bind:iata-code=iataCode id="airportVisualisation"></AirportVisualisation>
 </template>
 
 <script>
@@ -18,7 +18,7 @@ export default {
       airports: [
           //TODO Récuperer les airports via l'api
       ],
-      iataCode: "NTE" //TODO Récuperer le IATA Code au clic
+      iataCode: "TLS" //TODO Récuperer le IATA Code au clic
     }
   },
 }

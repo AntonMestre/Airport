@@ -17,7 +17,7 @@
       <h2>
         Graphical view
       </h2>
-      <graph-container></graph-container>
+      <graph-container :iataCode="iataCode"></graph-container>
     </div>
     <div id="values-list-container">
       <h2>
@@ -149,6 +149,7 @@ export default {
               // maxDate: date.toISOString().slice(0, 10) + "T23:59:59.999",
               minDate: "2021-12-23T14:57:49.076",
               maxDate: "2021-12-29T15:16:29.801",
+              iATA: this.iataCode,
             }
           })
           .then(response => data = response.data)
