@@ -14,6 +14,8 @@ const TOPIC_PRESSURE = "topic/pressure"
 const HOST = "tcp://localhost:1883"
 const CLIENT_DATABASE_SUB = "CLIENT_DATABASE_SUB"
 
+const DB_URI = "mongodb+srv://Airport:Airport@cluster0.0c6je.mongodb.net/AirportDataBase?retryWrites=true&w=majority"
+
 //API
 const API_URI = ":3000"
 const DATABASE_CLOUD_URI = "mongodb+srv://Airport:Airport@cluster0.0c6je.mongodb.net/AirportDataBase?retryWrites=true&w=majority"
