@@ -49,7 +49,7 @@ export default
     mapData(data){
       let res = [[],[]];
       if(data == null){
-        this.chartdata = null;
+        this.chartdata = res;
         return;
       }
       data.forEach(d => {
@@ -65,8 +65,6 @@ export default
           .get('http://localhost:3000/data',{
             params: {
               sensor: this.type,
-              // minDate: "2021-12-23T14:57:49.076",
-              // maxDate: "2021-12-29T15:16:29.801",
               minDate: this.startDate + "T00:00:00.000",
               maxDate: this.endDate + "T23:59:59.999",
               iATA: this.iataCode,
@@ -81,11 +79,13 @@ export default
   },
   watch: {
     type(val, oldval){
-      console.log(val);
       if(val !== oldval){
         this.fetchData(); 
       }
-    }
+    },
+    iataCode(){
+      this.fetchData(); 
+    },
   },
 }
 </script>

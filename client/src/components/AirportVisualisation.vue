@@ -76,6 +76,7 @@ export default {
         this.temperatureValue = null;
         this.setLastUpdate(null);
         this.valuesList = {};
+        return;
       }
       let lastData = data[data.length-1];
       this.temperatureValue = {
@@ -107,6 +108,7 @@ export default {
         this.windValue = null;
         this.setLastUpdate(null);
         this.valuesList = {};
+        return;
       }
       let lastData = data[data.length-1];
       this.windValue = {
@@ -137,6 +139,7 @@ export default {
         this.pressureValue = null;
         this.setLastUpdate(null);
         this.valuesList = {};
+        return;
       }
       let lastData = data[data.length-1];
       this.pressureValue = {
@@ -200,9 +203,11 @@ export default {
           })
           .then(response => {
             data = response.data;
-            this.temperatureValue.avgValue = data.Temp.Average;
-            this.pressureValue.avgValue = data.Pressure.Average;
-            this.windValue.avgValue = data.Wind.Average;
+            if(data != null && Object.keys(data).length > 0){
+              this.temperatureValue.avgValue = data.Temp.Average;
+              this.pressureValue.avgValue = data.Pressure.Average;
+              this.windValue.avgValue = data.Wind.Average;
+            }
           })
           .catch(e => console.log(e))
     },
@@ -235,7 +240,6 @@ export default {
 
   watch: {
     airport(){
-      console.log("Changement detecté depuis Visualisation");
       this.fetchAll();
     }
   }

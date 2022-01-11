@@ -60,13 +60,6 @@ export default {
   },
 
   methods: {
-    // setAirport(iata, name){
-    //   this.airport.iata = iata;
-    //   this.airport.name = name;
-    //   console.log("Chgmt aeroport " + this.airport.iata);
-    //   this.$emit('airport',this.airport);
-    // },
-    
     select(iata){
         this.iata = iata;
     }

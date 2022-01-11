@@ -30,12 +30,6 @@ export default {
       this.airport = airport;
     }
   },
-
-  watch:{
-    airport(val){
-      console.log("Airport selectionné: " + val.name);
-    }
-  }
 }
 </script>
 

@@ -75,7 +75,7 @@ export default {
 
   watch: {
     chartdata(val, oldval){
-      console.log(val);
+      console.log("Re rendering graph ...");
       this.renderGraph();
     }
   }
