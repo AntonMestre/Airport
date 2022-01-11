@@ -19,7 +19,7 @@ func main() {
 	// Connection to database (MongoDb Cloud)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	dbClient, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb+srv://Airport:Airport@cluster0.0c6je.mongodb.net/AirportDataBase?retryWrites=true&w=majority"))
+	dbClient, err := mongo.Connect(ctx, options.Client().ApplyURI(util.DB_URI))
 	defer func() {
 		if err = dbClient.Disconnect(ctx); err != nil {
 			panic(err)
