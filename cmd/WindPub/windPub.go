@@ -17,8 +17,8 @@ func main() {
 	client := tools.Connect(config.Host, config.ClientId)
 
 	for {
-		client.Publish(config.Broker, config.Qoslevel, false, fmt.Sprintf("%d | %s | %s |%f | %s",
-			config.IdSensor, config.IataCode, config.Nature, tools.FetchData(config.CityName).Wind_speed, time.Now()))
+		client.Publish(config.Broker, config.Qoslevel, false, fmt.Sprintf("%d|%s|%s|%f|%s",
+			config.IdSensor, config.IataCode, config.Nature, tools.FetchData(config.CityName).Wind_speed, time.Now().UTC().Format(time.RFC3339)))
 		time.Sleep(time.Second * 10)
 	}
 

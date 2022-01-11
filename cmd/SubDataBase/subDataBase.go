@@ -3,13 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"strings"
 	"tools"
 	"util"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -42,13 +42,16 @@ func main() {
 
 		//fmt.Println(msg.Payload())
 		value := msg.Payload()
+		fmt.Printf("%s", value)
+
 		data := strings.Split(string(value), "|")
 
-		strconv.Atoi("15256545")
-
-		res, err := collection.InsertOne(ctx, bson.D{{"idCaptor", data[0]}, {"iATA", data[1]}, {"value", data[3]}, {"pickingDate", data[4]}})
-		fmt.Printf("res  - %s\n", res)
-		fmt.Printf("err  - %s\n", err)
+		res, err := collection.InsertOne(ctx, bson.D{primitive.E{Key: "idCaptor", Value: data[0]}, primitive.E{Key: "iATA", Value: data[1]}, primitive.E{Key: "value", Value: data[3]}, primitive.E{Key: "pickingDate", Value: data[4]}})
+		fmt.Printf("\nID : %s\n", res.InsertedID)
+		if err != nil {
+			fmt.Printf("Une erreur est survenue à l'enregistrement de la donnée\n")
+			fmt.Printf("Plus d'infos : %s\n", err.Error())
+		}
 	}
 
 	// Connecting to the broker in subscriber mode
