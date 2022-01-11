@@ -7,63 +7,41 @@
 <!--      <div v-for="airport in airports" :key="airport">
         {{airport}}
       </div>-->
-      <div class="airport">
+      <div class="airport" :id="iata == 'TLS' ? 'current' : ''" v-on:click="$emit('airport', {name: 'Toulouse-Blagnac', iata: 'TLS'}); select('TLS')">
+        <div class="hover-truc"></div>
+        <div>
+          <h4>TLS</h4>
+          <p>Toulouse-Blagnac</p>
+        </div>
+      </div>
+      <div class="airport" :id="iata == 'NTE' ? 'current' : ''" v-on:click="$emit('airport', {name: 'Nantes', iata: 'NTE'}); select('NTE')">
+        <div class="hover-truc"></div>
+        <div>
+          <h4>NTE</h4>
+          <p>Nantes</p>
+        </div>
+      </div>
+      <div class="airport" :id="iata == 'YUL' ? 'current' : ''" v-on:click="$emit('airport', {name: 'Motréal-Trudeau', iata: 'YUL'}); select('YUL')">
+        <div class="hover-truc"></div>
+        <div>
+          <h4>YUL</h4>
+          <p>Montréal-Trudeau</p>
+        </div>
+      </div>
+      <div class="airport" :id="iata == 'DXB' ? 'current' : ''" v-on:click="$emit('airport', {name: 'Dubai', iata: 'DXB'}); select('DXB')">
+        <div class="hover-truc"></div>
+        <div>
+          <h4>DXB</h4>
+          <p>Dubai</p>
+        </div>
+      </div>
+      <div class="airport" :id="iata == 'LYS' ? 'current' : ''" v-on:click="$emit('airport', {name: 'Lyon St Exupéry', iata: 'LYS'}); select('LYS')">
         <div class="hover-truc"></div>
         <div>
           <h4>LYS</h4>
           <p>Lyon St Exupéry</p>
         </div>
       </div>
-      <div class="airport">
-        <div class="hover-truc"></div>
-        <div>
-          <h4>LYS</h4>
-          <p>Lyon St Exupéry</p>
-        </div>
-      </div>
-      <div class="airport">
-        <div class="hover-truc"></div>
-        <div>
-          <h4>LYS</h4>
-          <p>Lyon St Exupéry</p>
-        </div>
-      </div>
-      <div class="airport">
-        <div class="hover-truc"></div>
-        <div>
-          <h4>LYS</h4>
-          <p>Lyon St Exupéry</p>
-        </div>
-      </div>
-      <div class="airport">
-        <div class="hover-truc"></div>
-        <div>
-          <h4>LYS</h4>
-          <p>Lyon St Exupéry</p>
-        </div>
-      </div>
-      <div class="airport">
-        <div class="hover-truc"></div>
-        <div>
-          <h4>LYS</h4>
-          <p>Lyon St Exupéry</p>
-        </div>
-      </div>
-      <div class="airport">
-        <div class="hover-truc"></div>
-        <div>
-          <h4>LYS</h4>
-          <p>Lyon St Exupéry</p>
-        </div>
-      </div>
-      <div class="airport">
-        <div class="hover-truc"></div>
-        <div>
-          <h4>LYS</h4>
-          <p>Lyon St Exupéry</p>
-        </div>
-      </div>
-
     </div>
 
     <div id="search">
@@ -80,11 +58,32 @@ export default {
   name: 'Sidebar',
   props: {
     airports: Array
-  }
+  },
+  data() {
+    return {
+      // airport: {
+      //   iata: "TLS",
+      //   name: "Toulouse-Blagnac",
+      // }
+      iata: "TLS",
+    }
+  },
+
+  methods: {
+    // setAirport(iata, name){
+    //   this.airport.iata = iata;
+    //   this.airport.name = name;
+    //   console.log("Chgmt aeroport " + this.airport.iata);
+    //   this.$emit('airport',this.airport);
+    // },
+    
+    select(iata){
+        this.iata = iata;
+    }
+  },
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
 #sidebar{
@@ -117,19 +116,22 @@ export default {
 .hover-truc{
     background-color: white;
     width: 0%;
+    height: 25%;
 
 }
 
-.airport:hover .hover-truc{
+.airport:hover .hover-truc, #current .hover-truc{
   background-color: #4D70F1;
   width: 15%;
   /* height: 120%; */
-  height: 25%;
   border-radius: 0px 10px 10px 0px;
   align-self: center;
   transition:  0.5s;
 }
 
+ #current .hover-truc{
+   height: 120%;
+ }
 
 .airport{
   display: grid;
@@ -199,6 +201,11 @@ export default {
   font-size: 15px;
   font-weight: 200;
 }
+
+#current{
+  color: #4D70F1;
+}
+
 
 
 </style>

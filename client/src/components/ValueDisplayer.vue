@@ -26,7 +26,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .value-displayer{
     grid-row: 1;
@@ -47,7 +46,7 @@ export default {
   }
 
   .values-container{
-    grid-column: 2/5;
+    grid-column: 2/6;
     padding: 10px 0px;
 
   }

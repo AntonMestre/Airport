@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1>Nantes Airport</h1>
+    <h1>{{airportName}} Airport</h1>
     <!-- <h4>Last update: {{lastUpdate[0]}} at {{lastUpdate[1]}}</h4> -->
-        <h4>Last update: 18/01/2022 at 13:45</h4>
+        <h4 v-if="lastUpdate != null">Last update: {{lastUpdate[0]}} at {{lastUpdate[1]}}</h4>
 
   </div>
 </template>

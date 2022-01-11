@@ -30,24 +30,6 @@ export default {
   props: {
     valuesList: Object,
   },
-
-
-  methods: {
-    sortValuesList(){
-      let valuesListArray = [];
-      for (const [key, value] of Object.entries(this.valuesList)){
-        console.log(1);
-        valuesListArray.push("a");
-      }
-      console.log( this.valuesList);
-    }
-  },
-  
-  watch: {
-    valuesList(val, oldval){
-      this.sortValuesList();
-    }
-  }
 }
 
 </script>

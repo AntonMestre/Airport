@@ -1,6 +1,6 @@
 <template>
-  <Sidebar v-bind:airports="airports" id="sidebar"></Sidebar>
-  <AirportVisualisation v-bind:iata-code=iataCode id="airportVisualisation"></AirportVisualisation>
+  <Sidebar v-bind:airports="airports" id="sidebar" @airport="getAirport"></Sidebar>
+  <AirportVisualisation v-bind:airport=airport id="airportVisualisation"></AirportVisualisation>
 </template>
 
 <script>
@@ -18,9 +18,24 @@ export default {
       airports: [
           //TODO Récuperer les airports via l'api
       ],
-      iataCode: "TLS" //TODO Récuperer le IATA Code au clic
+      airport: {
+        iata: "TLS",
+        name: "Toulouse-Blagnac",
+      },
     }
   },
+  
+  methods: {
+    getAirport(airport){
+      this.airport = airport;
+    }
+  },
+
+  watch:{
+    airport(val){
+      console.log("Airport selectionné: " + val.name);
+    }
+  }
 }
 </script>
 
@@ -29,6 +44,7 @@ export default {
 body{
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 html, body, #app{
