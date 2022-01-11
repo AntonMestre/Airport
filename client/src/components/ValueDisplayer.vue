@@ -1,27 +1,29 @@
 <template>
-  <div v-if="valueObject != null">
-    <img :src="require(`@/assets/${valueObject.name}.png`)" :alt=valueObject.name>
+  <div>
+    <img :src="require(`@/assets/${sensor}.png`)" :alt=sensor>
     <div class="values-container">
-      <div v-if="valueObject != null">
-        <h3>{{valueObject.name}}</h3>
-        <div class="values">
+      <div>
+        <h3>{{sensor}}</h3>
+        <div v-if="valueObject != null" class="values">
           <p class="current">{{valueObject.currentValue}} {{valueObject.unit}}</p>
           <p class="separator">|</p>
           <p class="avg"> {{valueObject.avgValue}}  {{valueObject.unit}} avg</p>
         </div>
+        <div v-else>
+          <p class="current">Rien à afficher</p>
+        </div>
       </div>
     </div>
   </div>
-  <div v-else>
-    <p id="error">Rien a afficher</p>
-  </div>
+
 </template>
 
 <script>
 export default {
   name: 'ValueDisplayer',
   props: {
-    valueObject: Object
+    valueObject: Object,
+    sensor: String
   }
 }
 </script>
@@ -84,8 +86,5 @@ export default {
     margin-right: 15px;
   }
 
-  #error{
-    font-size: 20px;
-    font-weight: lighter;
-  }
+
 </style>

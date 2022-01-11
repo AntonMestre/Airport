@@ -8,9 +8,9 @@
         Currently
       </h2>
       <div id="value-components-container">
-        <value-displayer class="value-displayer" v-bind:value-object="temperatureValue"></value-displayer>
-        <value-displayer class="value-displayer" v-bind:value-object="windValue"></value-displayer>
-        <value-displayer class="value-displayer" v-bind:value-object="pressureValue"></value-displayer>
+        <value-displayer class="value-displayer" v-bind:value-object="temperatureValue" v-bind:sensor="'Temperature'"></value-displayer>
+        <value-displayer class="value-displayer" v-bind:value-object="windValue" v-bind:sensor="'Wind'"></value-displayer>
+        <value-displayer class="value-displayer" v-bind:value-object="pressureValue" v-bind:sensor="'Pressure'"></value-displayer>
       </div>
     </div>
     <div id="graph-container">
@@ -45,7 +45,7 @@ export default {
   },
 
   mounted() {
-    this.fetchDataFromSensors();
+    this.fetchAll();
   },
 
   data: function () {
@@ -62,13 +62,18 @@ export default {
 
   methods: {
 
-    fetchDataFromSensors(){
+    fetchAll(){
       this.fetchData("Temp");
       this.fetchData("Wind");
       this.fetchData("Pressure");
     },
     // Temperature data --------------
     mapTempData(data){
+      if(data == null){
+        this.temperatureValue = null;
+        this.setLastUpdate(null);
+        this.valuesList = {};
+      }
       let lastData = data[data.length-1];
       this.temperatureValue = {
         name: "Temperature",
@@ -95,6 +100,11 @@ export default {
 
     // Wind data --------------
     mapWindData(data){
+      if(data == null){
+        this.windValue = null;
+        this.setLastUpdate(null);
+        this.valuesList = {};
+      }
       let lastData = data[data.length-1];
       this.windValue = {
         name: "Wind",
@@ -120,6 +130,11 @@ export default {
 
     // Pressure data --------------
     mapPressureData(data){
+      if(data == null){
+        this.pressureValue = null;
+        this.setLastUpdate(null);
+        this.valuesList = {};
+      }
       let lastData = data[data.length-1];
       this.pressureValue = {
         name: "Pressure",
@@ -204,6 +219,10 @@ export default {
     },
 
     setLastUpdate(dateString){
+      if(dateString == null){
+        this.lastUpdate = null;
+        return;
+      }
       let date = new Date(dateString.slice(0,19));
       if(this.lastUpdate == null){
         this.lastUpdate = [dateString.slice(0,10), dateString.slice(11,19)];
@@ -217,10 +236,10 @@ export default {
   },
 
   watch: {
-    // airport(){
-    //   console.log("bipbap");
-    //   this.fetchDataFromSensors();
-    // }
+    airport(){
+      console.log("Changement detecté depuis Visualisation");
+      this.fetchAll();
+    }
   }
 }
 

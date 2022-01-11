@@ -3,6 +3,7 @@
     <h1>{{airportName}} Airport</h1>
     <!-- <h4>Last update: {{lastUpdate[0]}} at {{lastUpdate[1]}}</h4> -->
         <h4 v-if="lastUpdate != null">Last update: {{lastUpdate[0]}} at {{lastUpdate[1]}}</h4>
+        <h4 v-else id="no-values"> Aucune valeur a afficher</h4>
 
   </div>
 </template>
@@ -36,6 +37,9 @@ export default {
     margin: 0;
     color: #817777;
     font-weight: lighter;
+  }
 
+  #no-values{
+    color: #e31414;
   }
 </style>
