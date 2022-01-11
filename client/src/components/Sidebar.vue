@@ -4,42 +4,13 @@
       <img src="@/assets/weatherfly.png" alt="WeatherFly logo">
     </div>
     <div id="airport-container">
-<!--      <div v-for="airport in airports" :key="airport">
-        {{airport}}
-      </div>-->
-      <div class="airport" :id="iata == 'TLS' ? 'current' : ''" v-on:click="$emit('airport', {name: 'Toulouse-Blagnac', iata: 'TLS'}); select('TLS')">
-        <div class="hover-truc"></div>
-        <div>
-          <h4>TLS</h4>
-          <p>Toulouse-Blagnac</p>
-        </div>
-      </div>
-      <div class="airport" :id="iata == 'NTE' ? 'current' : ''" v-on:click="$emit('airport', {name: 'Nantes', iata: 'NTE'}); select('NTE')">
-        <div class="hover-truc"></div>
-        <div>
-          <h4>NTE</h4>
-          <p>Nantes</p>
-        </div>
-      </div>
-      <div class="airport" :id="iata == 'YUL' ? 'current' : ''" v-on:click="$emit('airport', {name: 'Motréal-Trudeau', iata: 'YUL'}); select('YUL')">
-        <div class="hover-truc"></div>
-        <div>
-          <h4>YUL</h4>
-          <p>Montréal-Trudeau</p>
-        </div>
-      </div>
-      <div class="airport" :id="iata == 'DXB' ? 'current' : ''" v-on:click="$emit('airport', {name: 'Dubai', iata: 'DXB'}); select('DXB')">
-        <div class="hover-truc"></div>
-        <div>
-          <h4>DXB</h4>
-          <p>Dubai</p>
-        </div>
-      </div>
-      <div class="airport" :id="iata == 'LYS' ? 'current' : ''" v-on:click="$emit('airport', {name: 'Lyon St Exupéry', iata: 'LYS'}); select('LYS')">
-        <div class="hover-truc"></div>
-        <div>
-          <h4>LYS</h4>
-          <p>Lyon St Exupéry</p>
+     <div v-for="airport in airports" :key="airport">
+        <div class="airport" :id="iata == airport.iata ? 'current' : ''" v-on:click="$emit('airport', {name: airport.name, iata: airport.iata}); select(airport.iata)">
+          <div class="hover-truc"></div>
+          <div>
+            <h4>{{airport.iata}}</h4>
+            <p>{{airport.name}}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -56,15 +27,34 @@
 <script>
 export default {
   name: 'Sidebar',
-  props: {
-    airports: Array
-  },
   data() {
     return {
       // airport: {
       //   iata: "TLS",
       //   name: "Toulouse-Blagnac",
       // }
+      airports: [
+        {
+          name: "Toulouse-Blagnac",
+          iata: "TLS"
+        },
+        {
+          name: "Nantes",
+          iata: "NTE"
+        },
+        {
+          name: "Montréal-Trudeau",
+          iata: "YUL"
+        },
+        {
+          name: "Dubai",
+          iata: "DXB"
+        },
+        {
+          name: "Lille-Lesquin",
+          iata: "LIL"
+        },
+      ],
       iata: "TLS",
     }
   },
