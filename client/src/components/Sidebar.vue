@@ -146,6 +146,7 @@ export default {
 .airport:hover{
   color: #4C4C51;
   transition: color 0.5s;
+  cursor: pointer;
 }
 
 .airport h4{

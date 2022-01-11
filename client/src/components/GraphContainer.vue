@@ -110,6 +110,7 @@ export default
   p{
     color: #B4B4B4;
     font-weight: lighter;
+    cursor: pointer;
   }
 
   #buttons{

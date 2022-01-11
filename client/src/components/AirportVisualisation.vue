@@ -45,6 +45,7 @@ export default {
   },
 
   mounted() {
+    // Récupération des données nécessaires 
     this.fetchAll();
   },
 
@@ -63,9 +64,11 @@ export default {
   methods: {
 
     fetchAll(){
-      this.fetchData("Temp");
-      this.fetchData("Wind");
-      this.fetchData("Pressure");
+      this.fetchDataFromSensor("Temp");
+      this.fetchDataFromSensor("Wind");
+      this.fetchDataFromSensor("Pressure");
+      this.fetchAverageValues();
+
     },
     // Temperature data --------------
     mapTempData(data){
@@ -157,10 +160,6 @@ export default {
         }
       })
     },
-
-    fetchData(sensor){
-      this.fetchDataFromSensor(sensor);
-    },
   
     fetchDataFromSensor(sensor){
       let data = null;
@@ -183,7 +182,6 @@ export default {
               this.mapWindData(data);
             else if (sensor == "Pressure")
               this.mapPressureData(data);
-            this.fetchAverageValues();
             this.isLoaded = true;
           })
           .catch(e => console.log(e))
