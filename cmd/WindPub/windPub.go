@@ -19,7 +19,7 @@ func main() {
 	for {
 		client.Publish(config.Broker, config.Qoslevel, false, fmt.Sprintf("%d | %s | %s |%d | %s",
 			config.IdSensor, config.IataCode, config.Nature, tools.WindNumberGenerator(), time.Now()))
-		time.Sleep(time.Second * 10)
+		time.Sleep(time.Second * util.NB_SEC)
 	}
 
 }

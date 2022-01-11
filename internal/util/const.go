@@ -15,6 +15,7 @@ const HOST = "tcp://localhost:1883"
 const CLIENT_DATABASE_SUB = "CLIENT_DATABASE_SUB"
 
 const DB_URI = "mongodb+srv://Airport:Airport@cluster0.0c6je.mongodb.net/AirportDataBase?retryWrites=true&w=majority"
+const NB_SEC = 10
 
 //API
 const API_URI = ":3000"
