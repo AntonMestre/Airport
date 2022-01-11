@@ -1,6 +1,7 @@
 package tools
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -20,6 +21,26 @@ func TempNumberGenerator() int {
 }
 func PressureNumberGenerator() int {
 	return rand.Intn(util.MAXIMUM_VALUE_PRESSURE-util.MINIMUM_VALUE_PRESSURE) + util.MINIMUM_VALUE_PRESSURE
+}
+
+func FetchData(city string) util.Informations {
+	data := ReadFile("weather-" + city)
+	var weather []util.Weather
+	json.Unmarshal(data, &weather)
+	date := time.Now().UTC().Hour() + 1
+	day := time.Now().UTC().Weekday()
+	for i := 0; i < len(weather); i++ {
+		currentDay := weather[i].Day.Weekday()
+		if currentDay == day {
+			for j := 0; j < len(weather[i].Hours); j++ {
+				currentHour := weather[i].Hours[j].Hour.Hour()
+				if currentHour == date {
+					return weather[i].Hours[j].Data
+				}
+			}
+		}
+	}
+	return util.Informations{}
 }
 
 func CreateClientOptions(brokerURI string, clientId string) *mqtt.ClientOptions {

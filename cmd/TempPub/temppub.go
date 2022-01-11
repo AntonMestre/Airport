@@ -17,8 +17,8 @@ func main() {
 	client := tools.Connect(config.Host, config.ClientId)
 
 	for {
-		client.Publish(config.Broker, config.Qoslevel, false, fmt.Sprintf("%d | %s | %s |%d | %s",
-			config.IdSensor, config.IataCode, config.Nature, tools.TempNumberGenerator(), time.Now()))
+		client.Publish(config.Broker, config.Qoslevel, false, fmt.Sprintf("%d | %s | %s |%f | %s",
+			config.IdSensor, config.IataCode, config.Nature, tools.FetchData(config.CityName).Temp, time.Now()))
 		time.Sleep(time.Second * 10)
 	}
 

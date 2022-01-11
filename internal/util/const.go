@@ -1,5 +1,7 @@
 package util
 
+import "time"
+
 const MINIMUM_VALUE_WIND = 0
 const MAXIMUM_VALUE_WIND = 50
 const MINIMUM_VALUE_TEMP = 0
@@ -23,4 +25,21 @@ type Config struct {
 	Port     int    `json:"port"`
 	Qoslevel byte   `json:"qoslevel"`
 	ClientId string `json:"clientId"`
+	CityName string `json:"cityName"`
+}
+
+type Weather struct {
+	Day   time.Time `json:"day"`
+	Hours []Hours   `json:"hours"`
+}
+
+type Hours struct {
+	Hour time.Time    `json:"hour"`
+	Data Informations `json:"data"`
+}
+
+type Informations struct {
+	Temp       float32 `json:"temp"`
+	Pressure   float32 `json:"pressure"`
+	Wind_speed float32 `json:"wind_speed"`
 }
