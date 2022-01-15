@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"strconv"
 	"time"
 	"tools"
 	"util"
@@ -18,13 +19,13 @@ type DataFormat struct {
 	ID          primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
 	IdCaptor    int                `json:"idCaptor,omitempty" bson:"idCaptor,omitempty"`
 	IATA        string             `json:"iATA,omitempty" bson:"iATA,omitempty"`
-	Value       int                `json:"value,omitempty" bson:"value,omitempty"`
+	Value       float64            `json:"value,omitempty" bson:"value,omitempty"`
 	PickingDate time.Time          `json:"pickingDate,omitempty" bson:"pickingDate,omitempty"`
 }
 
 type AverageSensor struct {
 	Name    string
-	Average int
+	Average float64
 }
 
 //Global vars for the API
@@ -118,6 +119,22 @@ func GetData(response http.ResponseWriter, request *http.Request) {
 	for cursor.Next(ctx) {
 		var data DataFormat
 		cursor.Decode(&data)
+		value, err := cursor.Current.Values()
+		if err != nil {
+			panic(err)
+		}
+		data.PickingDate = value[4].Time()
+		data.IATA = value[2].StringValue()
+		var sensorString string
+		errtemp := value[3].Unmarshal(&sensorString)
+		if errtemp != nil {
+			panic(errtemp)
+		}
+		sensorValue, sensorValueError := strconv.ParseFloat(sensorString, 32)
+		if sensorValueError != nil {
+			panic(sensorValueError)
+		}
+		data.Value = sensorValue
 		dataSet = append(dataSet, data)
 	}
 
@@ -161,14 +178,14 @@ func GetMean(response http.ResponseWriter, request *http.Request) {
 	//Retrieving collection from mongodb
 	for i := 0; i < len(sensorsNamesInDb); i++ {
 		cursor, ctx := getCollectionCursor(sensorsNamesInDb[i], minDate, maxDate, iata)
-		totalValue := 0
+		totalValue := 0.0
 		nbRow := 0
 
 		//Parsing dataset
 		for cursor.Next(ctx) {
 			var data DataFormat
 			cursor.Decode(&data)
-			totalValue += data.Value
+			totalValue += float64(data.Value)
 			nbRow++
 		}
 
@@ -184,7 +201,7 @@ func GetMean(response http.ResponseWriter, request *http.Request) {
 			continue
 		}
 
-		data := AverageSensor{sensorsNamesInDb[i], totalValue / nbRow}
+		data := AverageSensor{sensorsNamesInDb[i], totalValue / float64(nbRow)}
 		dataSet[sensorsNamesInDb[i]] = data
 	}
 

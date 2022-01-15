@@ -3,12 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 	"tools"
 	"util"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -18,7 +20,7 @@ func main() {
 	// Connection to database (MongoDb Cloud)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	dbClient, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb+srv://Airport:Airport@cluster0.0c6je.mongodb.net/AirportDataBase?retryWrites=true&w=majority"))
+	dbClient, err := mongo.Connect(ctx, options.Client().ApplyURI(util.DB_URI))
 	defer func() {
 		if err = dbClient.Disconnect(ctx); err != nil {
 			panic(err)
@@ -39,9 +41,22 @@ func main() {
 			collection = dbClient.Database("AirportDataBase").Collection("Pressure")
 		}
 
-		res, err := collection.InsertOne(ctx, bson.D{{"idCaptor", 1}, {"iATA", "TLS"}, {"value", 40}, {"pickingDate", time.Now()}})
-		fmt.Printf("res  - %s\n", res)
-		fmt.Printf("err  - %s\n", err)
+		value := msg.Payload()
+
+		data := strings.Split(string(value), "|")
+
+		// loc, err := time.LoadLocation("Europe/Paris")
+		// if err != nil {
+		// 	panic(err)
+		// }
+
+		res, err := collection.InsertOne(ctx, bson.D{primitive.E{Key: "idCaptor", Value: data[0]}, primitive.E{Key: "iATA", Value: data[1]}, primitive.E{Key: "value", Value: data[3]}, primitive.E{Key: "pickingDate", Value: time.Now()}})
+		if err != nil {
+			fmt.Printf("Une erreur est survenue à l'enregistrement de la donnée\n")
+			fmt.Printf("Plus d'infos : %s\n", err.Error())
+		}
+		fmt.Printf("ID : %s\n", res.InsertedID)
+		fmt.Printf("Enregistrement réussie\n")
 	}
 
 	// Connecting to the broker in subscriber mode

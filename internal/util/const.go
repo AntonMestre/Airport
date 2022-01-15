@@ -1,5 +1,7 @@
 package util
 
+import "time"
+
 const MINIMUM_VALUE_WIND = 0
 const MAXIMUM_VALUE_WIND = 50
 const MINIMUM_VALUE_TEMP = 0
@@ -13,6 +15,9 @@ const TOPIC_PRESSURE = "topic/pressure"
 
 const HOST = "tcp://localhost:1883"
 const CLIENT_DATABASE_SUB = "CLIENT_DATABASE_SUB"
+
+const DB_URI = "mongodb+srv://Airport:Airport@cluster0.0c6je.mongodb.net/AirportDataBase?retryWrites=true&w=majority"
+const NB_SEC = 10
 
 //API
 const API_URI = ":3000"
@@ -34,4 +39,21 @@ type Config struct {
 	Port     int    `json:"port"`
 	Qoslevel byte   `json:"qoslevel"`
 	ClientId string `json:"clientId"`
+	CityName string `json:"cityName"`
+}
+
+type Weather struct {
+	Day   time.Time `json:"day"`
+	Hours []Hours   `json:"hours"`
+}
+
+type Hours struct {
+	Hour time.Time    `json:"hour"`
+	Data Informations `json:"data"`
+}
+
+type Informations struct {
+	Temp       float32 `json:"temp"`
+	Pressure   float32 `json:"pressure"`
+	Wind_speed float32 `json:"wind_speed"`
 }
