@@ -85,4 +85,8 @@ html, body, #app{
   grid-row: 2;
 }
 
+::-webkit-scrollbar{
+  width: 0;
+}
+
 </style>
