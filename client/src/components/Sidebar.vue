@@ -78,13 +78,13 @@ export default {
 
 #logo {
   grid-row: 1/3;
-  padding-top: 30px;
+  padding-top: 3.7vh;
   width: 100%
 }
 
 #logo img{
   display: block;
-  padding-left: 35px;
+  padding-left: 2.3vw;
   width: 70%;
 }
 
@@ -120,10 +120,10 @@ export default {
   display: grid;
   grid-template-columns: 15% 85%;
   color: #B4B4B4;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  margin-top: 1.8vh;
+  margin-bottom: 1.8vh;
+  padding-top: 0.8vh;
+  padding-bottom: 0.8vh;
 }
 
 .airport:hover{
@@ -135,22 +135,22 @@ export default {
 .airport h4{
   padding: 0;
   margin: 0;
-  font-size: 22px;
+  font-size: 1.4vw;
   font-weight: normal;
 }
 
 .airport p{
   padding: 0;
   margin: 0;
-  font-size: 17px;
+  font-size: 1.1vw;
   font-weight: lighter;
 }
 
 #search{
   display: grid;
   grid-template-columns: repeat(5,1fr);
-  margin-left: 15px;
-  margin-right: 15px;
+  margin-left: 1vw;
+  margin-right: 1vw;
   padding: 8px 8px 8px 8px;
   border-radius: 12px;
   grid-row: 12/13;
@@ -182,7 +182,7 @@ export default {
 
 #search input::placeholder{
   color: #B4B4B4;
-  font-size: 15px;
+  font-size: 1vw;
   font-weight: 200;
 }
 

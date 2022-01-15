@@ -46,18 +46,18 @@ export default {
   }
 
   table{
-    margin-top: 15px;
+    margin-top: 1vh;
   }
 
   thead td{
     color: #4D70F1;
-    padding-bottom: 10px;
+    padding-bottom: 0.7vh;
   }
 
   td{
     font-weight: lighter;
     color: #4C4C51;
-    padding-left: 15px;
-    padding-right: 10px;
+    padding-left: 1vw;
+    padding-right: 0.8vw;
   }
 </style>

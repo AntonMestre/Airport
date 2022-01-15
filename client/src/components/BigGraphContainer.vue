@@ -94,17 +94,16 @@ export default
 
   #big-graph-container{
     background-color: white;
-    border-radius: 15px;
+    border-radius: 1vw;
     box-shadow: 0px 3px 6px #E6E6E6;
-    margin: 20px 60px 20px 60px;
+    margin: 3vh 4vw 3vh 4vw;
 
   }
 
   #graph{
     height: 90%;
-    padding-left: 28px;
-    padding-right: 28px;
-
+    padding-left: 3vh;
+    padding-right: 3vh;
   }
 
   p{
@@ -114,7 +113,7 @@ export default
   }
 
   #buttons{
-    margin-left: 30px;
+    margin-left: 4vw;
     display: grid;
     grid-template-columns: repeat(10,auto);
   }
@@ -126,7 +125,7 @@ export default
   #from, #to{
     display: flex;
     justify-content: space-between;
-    margin-right: 20px;
+    margin-right: 1vw;
   }
 
   input{

@@ -28,12 +28,13 @@ export default {
   h1{
     margin: 0;
     color: #4D70F1;
-    font-size: 50px;
+    font-size: 3.4vw;
     font-weight: normal;
   }
 
   h4{
     margin: 0;
+    font-size: 1vw;
     color: #817777;
     font-weight: lighter;
   }

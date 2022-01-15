@@ -56,7 +56,7 @@ html, body, #app{
   display: grid;
   grid-template-columns: repeat(6,1fr);
   grid-template-rows: 7% 93%;
-  grid-column-gap: 10px;
+  grid-column-gap: 1vw;
   font-family: Cera Pro,sans-serif;
   background-color: #f8f8f8;
 }
@@ -74,8 +74,9 @@ html, body, #app{
   text-align: center;
   cursor: pointer;
   color: #817777;
-  margin-top: 20px;
-  margin-left: 15px;
+  margin-top: 2.5vh;
+  margin-left: 2vh;
+  font-size: 1vw;
 }
 
 

@@ -238,7 +238,7 @@ export default {
 <style scoped>
   h2{
     margin: 0;
-    padding-bottom: 15px;
+    padding-bottom: 1vw;
     font-weight: normal;
     color: #4C4C51;
   }
@@ -248,10 +248,10 @@ export default {
     grid-template-rows: 15% 15% 43%;
     grid-template-columns: repeat(3,1fr);
 
-    row-gap: 40px;
-    column-gap: 50px;
+    row-gap: 5vh;
+    column-gap: 4vw;
 
-    margin: 0 60px 10px 60px;
+    margin: 0 4vw 1vh 4vw;
     height: 100vh;
   }
 
@@ -274,7 +274,7 @@ export default {
   #value-components-container{
     display: grid;
     grid-template-columns: repeat(3,1fr);
-    column-gap: 50px;
+    column-gap: 4vw;
   }
 
   #values-list-container{

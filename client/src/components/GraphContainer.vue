@@ -94,8 +94,8 @@ export default
 
   #graph{
     height: 80%;
-    padding-left: 28px;
-    padding-right: 28px;
+    padding-left: 1.8vw;
+    padding-right: 1.8vw;
 
   }
 
@@ -106,19 +106,13 @@ export default
   }
 
   #buttons{
-    margin-left: 30px;
+    margin-left: 2vw;
     display: grid;
     grid-template-columns: repeat(10,auto);
   }
 
   #from{
     grid-column: 8;
-  }
-
-  #from, #to{
-    display: flex;
-    justify-content: space-between;
-    margin-right: 20px;
   }
 
   input{

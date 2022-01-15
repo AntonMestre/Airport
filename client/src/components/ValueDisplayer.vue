@@ -34,7 +34,7 @@ export default {
     display: grid;
     grid-template-columns: repeat(5,1fr);
     background-color: white;
-    border-radius: 15px;
+    border-radius: 1vw;
     box-shadow: 0px 3px 6px #E6E6E6;
   }
 
@@ -44,19 +44,19 @@ export default {
     margin-left: auto;
     margin-right: auto;
     width: 80%;
-    padding-top: 5px;
+    padding-top: 0.35vw;
   }
 
   .values-container{
     grid-column: 2/6;
-    padding: 10px 0px;
+    padding: 0.7vw 0px;
 
   }
 
   h3{
     font-weight: lighter;
     color: #817777;
-    font-size: 14px;
+    font-size: 0.9vw;
     margin: 0;
   }
 
@@ -70,20 +70,20 @@ export default {
 
   .current{
     color: #4D70F1;
-    font-size: 23px;
+    font-size: 1.5vw;
   }
 
   .avg{
     color: #B4B4B4;
     font-weight: lighter;
-    font-size: 14px;
+    font-size: 0.9vw;
   }
   
   .separator{
     color: #B4B4B4;
     font-weight: lighter;
-    margin-left: 15px;
-    margin-right: 15px;
+    margin-left: 1vw;
+    margin-right: 1vw;
   }
 
 
