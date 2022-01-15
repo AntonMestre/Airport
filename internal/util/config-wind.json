@@ -1,6 +1,6 @@
 {
     "nature": "Wind speed",
-    "iatacode": "CDG",
+    "iatacode": "NTE",
     "idsensor": 1,
     "broker": "topic/wind",
     "host": "tcp://localhost:1883",

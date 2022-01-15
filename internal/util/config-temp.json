@@ -1,6 +1,6 @@
 {
     "nature": "Temperature",
-    "iatacode": "CDG",
+    "iatacode": "NTE",
     "idsensor": 2,
     "broker": "topic/temp",
     "host": "tcp://localhost:1883",
