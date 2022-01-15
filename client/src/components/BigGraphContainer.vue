@@ -1,9 +1,17 @@
 <template>
-  <div id="graph-container">
+  <div id="big-graph-container">
     <div id="buttons">
       <p v-on:click="type = 'Temp'" :class="type == 'Temp' ? 'selected' : ''">Temperature</p>
       <p v-on:click="type = 'Wind'" :class="type == 'Wind' ? 'selected' : ''">Wind</p>
       <p v-on:click="type = 'Pressure'" :class="type == 'Pressure' ? 'selected' : ''">Pressure</p>
+      <div id="from">
+        <p>From </p>
+        <input type="date" v-model="startDate" v-on:change="fetchData()">
+      </div>
+      <div id="to">
+        <p>To </p>
+        <input type="date"  v-model="endDate" v-on:change="fetchData()">       
+      </div>
     </div>
     <graph :chartdata="chartdata" id="graph"></graph>
   </div>
@@ -18,7 +26,7 @@ let date = new Date();
 export default 
 {
   components: { Graph },
-  name: 'GraphContainer',
+  name: 'BigGraphContainer',
 
   props: {
     iataCode: String,
@@ -26,10 +34,8 @@ export default
   
   data() {
     return {
-      // startDate: date.toISOString().slice(0, 10),
-      // endDate: date.toISOString().slice(0, 10),
-      startDate : "2021-12-23",
-      endDate: "2021-12-29",
+      startDate: date.toISOString().slice(0, 10),
+      endDate: date.toISOString().slice(0, 10),
       type: "Temp",
       chartdata: null,
     }
@@ -86,16 +92,16 @@ export default
 
 <style scoped>
 
-  #graph-container{
+  #big-graph-container{
     background-color: white;
     border-radius: 15px;
-    height: 100%;
     box-shadow: 0px 3px 6px #E6E6E6;
+    margin: 20px 60px 20px 60px;
 
   }
 
   #graph{
-    height: 80%;
+    height: 90%;
     padding-left: 28px;
     padding-right: 28px;
 

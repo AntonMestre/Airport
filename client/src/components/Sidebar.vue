@@ -35,12 +35,12 @@ export default {
       // }
       airports: [
         {
-          name: "Toulouse-Blagnac",
-          iata: "TLS"
-        },
-        {
           name: "Nantes",
           iata: "NTE"
+        },
+        {
+          name: "Toulouse-Blagnac",
+          iata: "TLS"
         },
         {
           name: "Montréal-Trudeau",
@@ -55,7 +55,7 @@ export default {
           iata: "LIL"
         },
       ],
-      iata: "TLS",
+      iata: "NTE", // IATA de base
     }
   },
 

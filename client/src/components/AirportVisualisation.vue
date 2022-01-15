@@ -58,17 +58,16 @@ export default {
       airportName: null,
       lastUpdate: null,
       valuesList: {},
+      view: "overview"
     }
   },
 
   methods: {
-
     fetchAll(){
       this.fetchDataFromSensor("Temp");
       this.fetchDataFromSensor("Wind");
       this.fetchDataFromSensor("Pressure");
       this.fetchAverageValues();
-
     },
     // Temperature data --------------
     mapTempData(data){
@@ -170,8 +169,8 @@ export default {
           .get('http://localhost:3000/data',{
             params: {
               sensor: sensor,
-              // minDate: date.toISOString().slice(0, 10) + "T00:00:00.000",
-              // maxDate: date.toISOString().slice(0, 10) + "T23:59:59.999",
+                // minDate: date.toISOString().slice(0, 10) + "T00:00:00.000",
+                // maxDate: date.toISOString().slice(0, 10) + "T23:59:59.999",
               minDate: "2021-12-23T14:57:49.076",
               maxDate: "2021-12-29T15:16:29.801",
               iATA: this.airport.iata,
@@ -195,8 +194,7 @@ export default {
       axios
           .get('http://localhost:3000/mean',{
             params: {
-              // minDate: date.toISOString().slice(0, 10),
-              // maxDate: date.toISOString().slice(0, 10),
+              // date: date.toISOString().slice(0, 10),
               date: "2021-12-23",
               iATA: this.airport.iata,
             }
@@ -226,9 +224,12 @@ export default {
         this.lastUpdate = null;
         return;
       }
+      console.log(this.lastUpdate)
       let date = new Date(dateString.slice(0,19));
+      console.log(date)
+      console.log("-------");
       if(this.lastUpdate == null){
-        this.lastUpdate = [dateString.slice(0,10), dateString.slice(11,19)];
+        this.lastUpdate = date;
       }
       else{
         if(this.lastUpdate < date){
@@ -257,7 +258,7 @@ export default {
 
   #airportVisualisation{
     display: grid;
-    grid-template-rows: repeat(10,1fr);
+    grid-template-rows: 15% 15% 43%;
     grid-template-columns: repeat(3,1fr);
 
     row-gap: 40px;
@@ -268,14 +269,19 @@ export default {
   }
 
   #airport-header-container{
-    grid-row: 1/3;
+    grid-row: 1;
     grid-column: 1/4;
   }
 
   #value-displayer-container{
-    grid-row: 4;
+    grid-row: 2;
     grid-column: 1/4;
 
+  }
+
+  #graph-container{
+    grid-row: 3;
+    grid-column: 1/3;
   }
 
   #value-components-container{
@@ -284,13 +290,8 @@ export default {
     column-gap: 50px;
   }
 
-  #graph-container{
-    grid-row: 5/10;
-    grid-column: 1/3;
-  }
-
   #values-list-container{
-    grid-row: 5/10;
+    grid-row: 3;
     grid-column: 3;
   }
 

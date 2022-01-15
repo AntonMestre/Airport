@@ -2,7 +2,7 @@
   <div>
     <h1>{{airportName}} Airport</h1>
     <!-- <h4>Last update: {{lastUpdate[0]}} at {{lastUpdate[1]}}</h4> -->
-        <h4 v-if="lastUpdate != null">Last update: {{lastUpdate[0]}} at {{lastUpdate[1]}}</h4>
+        <h4 v-if="lastUpdate != null">Last update: {{lastUpdate.getDay()}}/{{lastUpdate.getMonth()}}/{{lastUpdate.getFullYear()}} at {{lastUpdate.getHours()}}:{{lastUpdate.getMinutes()}}:{{lastUpdate.getSeconds()}}</h4>
         <h4 v-else id="no-values"> Aucune valeur a afficher pour aujourd'hui</h4>
 
   </div>
@@ -14,7 +14,7 @@ export default {
 
   props: {
     airportName: String,
-    lastUpdate: Array // [date, time]
+    lastUpdate: Date
   }
 }
 </script>
@@ -22,8 +22,8 @@ export default {
 <style scoped>
   #airport-header{
     text-align: center;
-    margin-top: 8vh;
-    margin-bottom: 8vh;
+    margin-top: 3vh;
+    margin-bottom: 5vh;
   }
 
   h1{
