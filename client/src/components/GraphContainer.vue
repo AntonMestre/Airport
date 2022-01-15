@@ -26,10 +26,8 @@ export default
   
   data() {
     return {
-      // startDate: date.toISOString().slice(0, 10),
-      // endDate: date.toISOString().slice(0, 10),
-      startDate : "2021-12-23",
-      endDate: "2021-12-29",
+      startDate: date.toISOString().slice(0, 10),
+      endDate: date.toISOString().slice(0, 10),
       type: "Temp",
       chartdata: null,
     }

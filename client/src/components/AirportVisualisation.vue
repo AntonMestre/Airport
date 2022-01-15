@@ -58,7 +58,6 @@ export default {
       airportName: null,
       lastUpdate: null,
       valuesList: {},
-      view: "overview"
     }
   },
 
@@ -67,20 +66,19 @@ export default {
       this.fetchDataFromSensor("Temp");
       this.fetchDataFromSensor("Wind");
       this.fetchDataFromSensor("Pressure");
-      this.fetchAverageValues();
+      // this.fetchAverageValues();
     },
     // Temperature data --------------
     mapTempData(data){
       if(data == null){
         this.temperatureValue = null;
         this.setLastUpdate(null);
-        this.valuesList = {};
         return;
       }
       let lastData = data[data.length-1];
       this.temperatureValue = {
         name: "Temperature",
-        currentValue: lastData.value,
+        currentValue: lastData.value.toFixed(2),
         avgValue: 0,
         unit: "°C"
       };
@@ -106,13 +104,12 @@ export default {
       if(data == null){
         this.windValue = null;
         this.setLastUpdate(null);
-        this.valuesList = {};
         return;
       }
       let lastData = data[data.length-1];
       this.windValue = {
         name: "Wind",
-        currentValue: lastData.value,
+        currentValue: lastData.value.toFixed(2),
         avgValue: 0,
         unit: "km/h"
       };
@@ -137,13 +134,12 @@ export default {
       if(data == null){
         this.pressureValue = null;
         this.setLastUpdate(null);
-        this.valuesList = {};
         return;
       }
       let lastData = data[data.length-1];
       this.pressureValue = {
         name: "Pressure",
-        currentValue: lastData.value,
+        currentValue: lastData.value.toFixed(2),
         avgValue: 0,
         unit: "hPa"
       };
@@ -169,10 +165,8 @@ export default {
           .get('http://localhost:3000/data',{
             params: {
               sensor: sensor,
-                // minDate: date.toISOString().slice(0, 10) + "T00:00:00.000",
-                // maxDate: date.toISOString().slice(0, 10) + "T23:59:59.999",
-              minDate: "2021-12-23T14:57:49.076",
-              maxDate: "2021-12-29T15:16:29.801",
+              minDate: date.toISOString().slice(0, 10) + "T00:00:00.000",
+              maxDate: date.toISOString().slice(0, 10) + "T23:59:59.999",
               iATA: this.airport.iata,
             }
           })
@@ -194,8 +188,7 @@ export default {
       axios
           .get('http://localhost:3000/mean',{
             params: {
-              // date: date.toISOString().slice(0, 10),
-              date: "2021-12-23",
+              date: date.toISOString().slice(0, 10),
               iATA: this.airport.iata,
             }
           })
@@ -224,10 +217,7 @@ export default {
         this.lastUpdate = null;
         return;
       }
-      console.log(this.lastUpdate)
       let date = new Date(dateString.slice(0,19));
-      console.log(date)
-      console.log("-------");
       if(this.lastUpdate == null){
         this.lastUpdate = date;
       }

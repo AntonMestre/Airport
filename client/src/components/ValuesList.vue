@@ -11,11 +11,11 @@
       </thead>
       <tbody>
         <tr v-for="value in valuesList" :key="value">
-          <td v-if="value[1] != null">{{value[1]}} hPa</td>
+          <td v-if="value[1] != null">{{value[1].toFixed(2)}} hPa</td>
           <td v-else></td>
-          <td v-if="value[2] != null">{{value[2]}} km/h</td>
+          <td v-if="value[2] != null">{{value[2].toFixed(2)}} km/h</td>
           <td v-else></td>          
-          <td v-if="value[3] != null">{{value[3]}} °C</td>
+          <td v-if="value[3] != null">{{value[3].toFixed(2)}} °C</td>
           <td v-else></td>  
           <td>{{value[0].toTimeString().slice(0,8)}}</td>
         </tr>
