@@ -1,0 +1,44 @@
+<template>
+  <div>
+    <h1>{{airportName}} Airport</h1>
+        <h4 v-if="lastUpdate != null">Last update: {{lastUpdate.getDay()}}/{{lastUpdate.getMonth()}}/{{lastUpdate.getFullYear()}} at {{lastUpdate.getHours()}}:{{lastUpdate.getMinutes()}}:{{lastUpdate.getSeconds()}}</h4>
+        <h4 v-else id="no-values"> Aucune valeur a afficher pour aujourd'hui</h4>
+
+  </div>
+</template>
+
+<script>
+export default {
+  name: "AirportHeader",
+
+  props: {
+    airportName: String,
+    lastUpdate: Date
+  }
+}
+</script>
+
+<style scoped>
+  #airport-header{
+    text-align: center;
+    margin-top: 3vh;
+    margin-bottom: 5vh;
+  }
+
+  h1{
+    margin: 0;
+    color: #4D70F1;
+    font-size: 50px;
+    font-weight: normal;
+  }
+
+  h4{
+    margin: 0;
+    color: #817777;
+    font-weight: lighter;
+  }
+
+  #no-values{
+    color: #e31414;
+  }
+</style>
