@@ -16,9 +16,14 @@ func main() {
 
 	client := tools.Connect(config.Host, config.ClientId)
 
+	// loc, err := time.LoadLocation("Europe/Paris")
+	// if err != nil {
+	// 	panic(err)
+	// }
+
 	for {
 		client.Publish(config.Broker, config.Qoslevel, false, fmt.Sprintf("%d|%s|%s|%f|%s",
-			config.IdSensor, config.IataCode, config.Nature, tools.FetchData(config.CityName).Temp, time.Now().UTC().Format(time.RFC3339)))
+			config.IdSensor, config.IataCode, config.Nature, tools.FetchData(config.CityName).Temp, time.Now()))
 		time.Sleep(time.Second * 10)
 	}
 

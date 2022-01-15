@@ -18,7 +18,7 @@ func main() {
 
 	for {
 		client.Publish(config.Broker, config.Qoslevel, false, fmt.Sprintf("%d|%s|%s|%f|%s",
-			config.IdSensor, config.IataCode, config.Nature, tools.FetchData(config.CityName).Pressure, time.Now().UTC().Format(time.RFC3339)))
+			config.IdSensor, config.IataCode, config.Nature, tools.FetchData(config.CityName).Pressure, time.Now()))
 		time.Sleep(time.Second * 10)
 	}
 }

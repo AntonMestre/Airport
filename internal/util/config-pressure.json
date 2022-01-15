@@ -1,6 +1,6 @@
 {
     "nature": "Atmospheric Pressure",
-    "iatacode": "CDG",
+    "iatacode": "NTE",
     "idsensor": 3,
     "broker": "topic/pressure",
     "host": "tcp://localhost:1883",

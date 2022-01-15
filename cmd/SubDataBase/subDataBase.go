@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"time"
 	"tools"
 	"util"
 
@@ -40,18 +41,22 @@ func main() {
 			collection = dbClient.Database("AirportDataBase").Collection("Pressure")
 		}
 
-		//fmt.Println(msg.Payload())
 		value := msg.Payload()
-		fmt.Printf("%s", value)
 
 		data := strings.Split(string(value), "|")
 
-		res, err := collection.InsertOne(ctx, bson.D{primitive.E{Key: "idCaptor", Value: data[0]}, primitive.E{Key: "iATA", Value: data[1]}, primitive.E{Key: "value", Value: data[3]}, primitive.E{Key: "pickingDate", Value: data[4]}})
-		fmt.Printf("\nID : %s\n", res.InsertedID)
+		// loc, err := time.LoadLocation("Europe/Paris")
+		// if err != nil {
+		// 	panic(err)
+		// }
+
+		res, err := collection.InsertOne(ctx, bson.D{primitive.E{Key: "idCaptor", Value: data[0]}, primitive.E{Key: "iATA", Value: data[1]}, primitive.E{Key: "value", Value: data[3]}, primitive.E{Key: "pickingDate", Value: time.Now()}})
 		if err != nil {
 			fmt.Printf("Une erreur est survenue à l'enregistrement de la donnée\n")
 			fmt.Printf("Plus d'infos : %s\n", err.Error())
 		}
+		fmt.Printf("ID : %s\n", res.InsertedID)
+		fmt.Printf("Enregistrement réussie\n")
 	}
 
 	// Connecting to the broker in subscriber mode
