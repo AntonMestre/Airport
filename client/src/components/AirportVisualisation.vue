@@ -72,7 +72,6 @@ export default {
     mapTempData(data){
       if(data == null){
         this.temperatureValue = null;
-        this.setLastUpdate(null);
         return;
       }
       let lastData = data[data.length-1];
@@ -103,7 +102,6 @@ export default {
     mapWindData(data){
       if(data == null){
         this.windValue = null;
-        this.setLastUpdate(null);
         return;
       }
       let lastData = data[data.length-1];
@@ -133,7 +131,6 @@ export default {
     mapPressureData(data){
       if(data == null){
         this.pressureValue = null;
-        this.setLastUpdate(null);
         return;
       }
       let lastData = data[data.length-1];

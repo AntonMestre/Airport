@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>{{airportName}} Airport</h1>
-        <h4 v-if="lastUpdate != null">Last update: {{lastUpdate.getDay()}}/{{lastUpdate.getMonth()}}/{{lastUpdate.getFullYear()}} at {{lastUpdate.getHours()}}:{{lastUpdate.getMinutes()}}:{{lastUpdate.getSeconds()}}</h4>
+        <h4 v-if="lastUpdate != null">Last update: {{lastUpdate.toISOString().slice(0, 10)}} at {{lastUpdate.toTimeString().slice(0,8)}}</h4>
         <h4 v-else id="no-values"> Aucune valeur a afficher pour aujourd'hui</h4>
 
   </div>
