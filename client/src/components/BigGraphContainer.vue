@@ -54,7 +54,7 @@ export default
       }
       data.forEach(d => {
         res[0].push([d.pickingDate.slice(11,19), d.pickingDate.slice(0,10)]);
-        res[1].push(d.value);
+        res[1].push(d.value === undefined ? d.value : d.value.toFixed(2));
       });
       this.chartdata = res;
     },
