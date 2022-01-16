@@ -46,13 +46,14 @@ func main() {
 
 		data := strings.Split(string(value), "|")
 
-		// loc, err := time.LoadLocation("Europe/Paris")
-		// if err != nil {
-		// 	panic(err)
-		// }
-
 		idCaptor, err := strconv.Atoi(data[0])
-		valueCaptor, err := strconv.ParseFloat(data[3], 8)
+		if err != nil {
+			panic(err)
+		}
+		valueCaptor, err := strconv.ParseFloat(data[3], 64)
+		if err != nil {
+			panic(err)
+		}
 
 		res, err := collection.InsertOne(ctx, bson.D{primitive.E{Key: "idCaptor", Value: idCaptor}, primitive.E{Key: "iATA", Value: data[1]}, primitive.E{Key: "value", Value: valueCaptor}, primitive.E{Key: "pickingDate", Value: time.Now()}})
 		if err != nil {
