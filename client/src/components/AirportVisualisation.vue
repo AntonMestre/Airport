@@ -66,7 +66,7 @@ export default {
       this.fetchDataFromSensor("Temp");
       this.fetchDataFromSensor("Wind");
       this.fetchDataFromSensor("Pressure");
-      // this.fetchAverageValues();
+      this.fetchAverageValues();
     },
     // Temperature data --------------
     mapTempData(data){
