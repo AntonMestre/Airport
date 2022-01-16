@@ -503,5 +503,106 @@
                 "data": { "temp": 6.99, "pressure": 1010, "wind_speed": 7.2 }
             }
         ]
+    },
+    {
+        "day": "2022-01-09T00:00:00.000Z",
+        "hours": [
+            {
+                "hour": "2022-01-09T00:00:00.000Z",
+                "data": { "temp": 9.01, "pressure": 1021, "wind_speed": 3.6 }
+            },
+            {
+                "hour": "2022-01-09T01:00:00.000Z",
+                "data": { "temp": 8.84, "pressure": 1021, "wind_speed": 3.6 }
+            },
+            {
+                "hour": "2022-01-09T02:00:00.000Z",
+                "data": { "temp": 8.25, "pressure": 1020, "wind_speed": 2.57 }
+            },
+            {
+                "hour": "2022-01-09T03:00:00.000Z",
+                "data": { "temp": 7.65, "pressure": 1020, "wind_speed": 3.09 }
+            },
+            {
+                "hour": "2022-01-09T04:00:00.000Z",
+                "data": { "temp": 8.92, "pressure": 1020, "wind_speed": 3.09 }
+            },
+            {
+                "hour": "2022-01-09T05:00:00.000Z",
+                "data": { "temp": 9.68, "pressure": 1020, "wind_speed": 5.14 }
+            },
+            {
+                "hour": "2022-01-09T06:00:00.000Z",
+                "data": { "temp": 9.12, "pressure": 1019, "wind_speed": 3.6 }
+            },
+            {
+                "hour": "2022-01-09T07:00:00.000Z",
+                "data": { "temp": 9.02, "pressure": 1019, "wind_speed": 3.6 }
+            },
+            {
+                "hour": "2022-01-09T09:00:00.000Z",
+                "data": { "temp": 9.8, "pressure": 1018, "wind_speed": 4.12 }
+            },
+            {
+                "hour": "2022-01-09T09:00:00.000Z",
+                "data": { "temp": 10.04, "pressure": 1018, "wind_speed": 4.63 }
+            },
+            {
+                "hour": "2022-01-09T10:00:00.000Z",
+                "data": { "temp": 10.81, "pressure": 1017, "wind_speed": 6.17 }
+            },
+            {
+                "hour": "2022-01-09T11:00:00.000Z",
+                "data": { "temp": 10.81, "pressure": 1015, "wind_speed": 6.69 }
+            },
+            {
+                "hour": "2022-01-09T12:00:00.000Z",
+                "data": { "temp": 9.96, "pressure": 1013, "wind_speed": 7.72 }
+            },
+            {
+                "hour": "2022-01-09T13:00:00.000Z",
+                "data": { "temp": 10.01, "pressure": 1011, "wind_speed": 7.72 }
+            },
+            {
+                "hour": "2022-01-09T14:00:00.000Z",
+                "data": { "temp": 10.04, "pressure": 1009, "wind_speed": 9.77 }
+            },
+            {
+                "hour": "2022-01-09T15:00:00.000Z",
+                "data": { "temp": 10.8, "pressure": 1007, "wind_speed": 9.77 }
+            },
+            {
+                "hour": "2022-01-09T16:00:00.000Z",
+                "data": { "temp": 10.75, "pressure": 1005, "wind_speed": 10.29 }
+            },
+            {
+                "hour": "2022-01-09T17:00:00.000Z",
+                "data": { "temp": 9.81, "pressure": 1005, "wind_speed": 9.26 }
+            },
+            {
+                "hour": "2022-01-09T18:00:00.000Z",
+                "data": { "temp": 9.54, "pressure": 1005, "wind_speed": 9.77 }
+            },
+            {
+                "hour": "2022-01-09T19:00:00.000Z",
+                "data": { "temp": 9.5, "pressure": 1006, "wind_speed": 10.29 }
+            },
+            {
+                "hour": "2022-01-09T20:00:00.000Z",
+                "data": { "temp": 8.72, "pressure": 1008, "wind_speed": 8.75 }
+            },
+            {
+                "hour": "2022-01-09T21:00:00.000Z",
+                "data": { "temp": 7.94, "pressure": 1008, "wind_speed": 7.72 }
+            },
+            {
+                "hour": "2022-01-09T22:00:00.000Z",
+                "data": { "temp": 7.55, "pressure": 1009, "wind_speed": 8.23 }
+            },
+            {
+                "hour": "2022-01-09T23:00:00.000Z",
+                "data": { "temp": 6.99, "pressure": 1010, "wind_speed": 7.2 }
+            }
+        ]
     }
 ]

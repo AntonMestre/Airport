@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"strings"
 	"time"
 	"tools"
@@ -50,7 +51,10 @@ func main() {
 		// 	panic(err)
 		// }
 
-		res, err := collection.InsertOne(ctx, bson.D{primitive.E{Key: "idCaptor", Value: data[0]}, primitive.E{Key: "iATA", Value: data[1]}, primitive.E{Key: "value", Value: data[3]}, primitive.E{Key: "pickingDate", Value: time.Now()}})
+		idCaptor, err := strconv.Atoi(data[0])
+		valueCaptor, err := strconv.ParseFloat(data[3], 8)
+
+		res, err := collection.InsertOne(ctx, bson.D{primitive.E{Key: "idCaptor", Value: idCaptor}, primitive.E{Key: "iATA", Value: data[1]}, primitive.E{Key: "value", Value: valueCaptor}, primitive.E{Key: "pickingDate", Value: time.Now()}})
 		if err != nil {
 			fmt.Printf("Une erreur est survenue à l'enregistrement de la donnée\n")
 			fmt.Printf("Plus d'infos : %s\n", err.Error())
