@@ -47,6 +47,7 @@ export default {
 
   table{
     margin-top: 1vh;
+    font-size: 1vw;
   }
 
   thead td{
@@ -57,7 +58,7 @@ export default {
   td{
     font-weight: lighter;
     color: #4C4C51;
-    padding-left: 1vw;
-    padding-right: 0.8vw;
+    padding-left: 0.4vw;
+    padding-right: 0.4vw;
   }
 </style>

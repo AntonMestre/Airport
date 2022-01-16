@@ -40,6 +40,6 @@ export default {
   }
 
   #no-values{
-    color: #e31414;
+    color: #4D70F1;
   }
 </style>

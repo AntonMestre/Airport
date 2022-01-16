@@ -241,6 +241,7 @@ export default {
     padding-bottom: 1vw;
     font-weight: normal;
     color: #4C4C51;
+    font-size: 1.55vw;
   }
 
   #airportVisualisation{
