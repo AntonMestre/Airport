@@ -30,8 +30,9 @@ func main() {
 			sensor = "Pressure"
 		}
 
-		dateSplit := strings.Split(data[4], " ")
-		csvFileName := data[1] + "-" + dateSplit[0] + "-" + sensor + ".csv"
+		dateSplit := strings.Split(data[4], "-")
+		date := []string{dateSplit[0], dateSplit[1], dateSplit[2]}
+		csvFileName := data[1] + "-" + strings.Join(date, "-") + "-" + sensor + ".csv"
 		filePath := "../../datalake/" + csvFileName
 
 		file, err := os.OpenFile(filePath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
