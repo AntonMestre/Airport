@@ -64,8 +64,21 @@ func Connect(brokerURI string, clientId string) mqtt.Client {
 }
 
 func ReadFile(filename string) []byte {
-	jsonfile, err := os.Open("../../internal/util/" + filename + ".json")
+	jsonfile, err := os.Open("../" + filename + ".json")
+	if err != nil {
+		fmt.Println(err)
+	}
 
+	defer jsonfile.Close()
+	bytevalue, err := ioutil.ReadFile(jsonfile.Name())
+	if err != nil {
+		fmt.Println(err)
+	}
+	return bytevalue
+}
+
+func ReadConfig(filename string) []byte {
+	jsonfile, err := os.Open("../config/" + filename + ".json")
 	if err != nil {
 		fmt.Println(err)
 	}

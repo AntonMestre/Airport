@@ -10,16 +10,11 @@ import (
 
 func main() {
 
-	values := tools.ReadFile("config-temp")
+	values := tools.ReadConfig("config-temp")
 	var config util.Config
 	json.Unmarshal(values, &config)
 
 	client := tools.Connect(config.Host, config.ClientId)
-
-	// loc, err := time.LoadLocation("Europe/Paris")
-	// if err != nil {
-	// 	panic(err)
-	// }
 
 	for {
 		client.Publish(config.Broker, config.Qoslevel, false, fmt.Sprintf("%d|%s|%s|%f|%s",

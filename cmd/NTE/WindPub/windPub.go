@@ -10,7 +10,7 @@ import (
 
 func main() {
 
-	values := tools.ReadFile("config-pressure")
+	values := tools.ReadConfig("config-wind")
 	var config util.Config
 	json.Unmarshal(values, &config)
 
@@ -18,7 +18,8 @@ func main() {
 
 	for {
 		client.Publish(config.Broker, config.Qoslevel, false, fmt.Sprintf("%d|%s|%s|%f|%s",
-			config.IdSensor, config.IataCode, config.Nature, tools.FetchData(config.CityName).Pressure, time.Now()))
+			config.IdSensor, config.IataCode, config.Nature, tools.FetchData(config.CityName).Wind_speed, time.Now()))
 		time.Sleep(time.Second * 10)
 	}
+
 }
