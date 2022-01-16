@@ -66,7 +66,7 @@ export default {
       this.fetchDataFromSensor("Temp");
       this.fetchDataFromSensor("Wind");
       this.fetchDataFromSensor("Pressure");
-      // this.fetchAverageValues();
+      this.fetchAverageValues();
     },
     // Temperature data --------------
     mapTempData(data){
@@ -192,9 +192,9 @@ export default {
           .then(response => {
             data = response.data;
             if(data != null && Object.keys(data).length > 0){
-              this.temperatureValue.avgValue = data.Temp.Average;
-              this.pressureValue.avgValue = data.Pressure.Average;
-              this.windValue.avgValue = data.Wind.Average;
+              this.temperatureValue.avgValue = data.Temp.Average.toFixed(2);
+              this.pressureValue.avgValue = data.Pressure.Average.toFixed(2);
+              this.windValue.avgValue = data.Wind.Average.toFixed(2);
             }
           })
           .catch(e => console.log(e))

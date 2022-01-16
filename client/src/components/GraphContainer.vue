@@ -35,6 +35,7 @@ export default
 
   mounted() {
     this.fetchData();
+    document.title ="WeatherFly | " + this.iataCode;
   },
 
   methods: {
@@ -77,6 +78,7 @@ export default
     },
     iataCode(){
       this.fetchData(); 
+      document.title ="WeatherFly | " + this.iataCode;
     },
   },
 }
