@@ -63,6 +63,7 @@ export default {
 
   methods: {
     fetchAll(){
+      this.valuesList = {};
       this.fetchDataFromSensor("Temp");
       this.fetchDataFromSensor("Wind");
       this.fetchDataFromSensor("Pressure");
