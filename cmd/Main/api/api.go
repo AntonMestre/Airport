@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
-	"strconv"
 	"time"
 	"tools"
 	"util"
@@ -125,14 +124,10 @@ func GetData(response http.ResponseWriter, request *http.Request) {
 		}
 		data.PickingDate = value[4].Time()
 		data.IATA = value[2].StringValue()
-		var sensorString string
-		errtemp := value[3].Unmarshal(&sensorString)
+		var sensorValue float64
+		errtemp := value[3].Unmarshal(&sensorValue)
 		if errtemp != nil {
 			panic(errtemp)
-		}
-		sensorValue, sensorValueError := strconv.ParseFloat(sensorString, 32)
-		if sensorValueError != nil {
-			panic(sensorValueError)
 		}
 		data.Value = sensorValue
 		dataSet = append(dataSet, data)
