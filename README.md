@@ -11,6 +11,7 @@ GO project that retrieve and return weather data from airports sensors (temperat
 - [Golang](https://go.dev/)
 - [Mosquitto](https://mosquitto.org/)
 - [MongoDB](https://www.mongodb.com/)
+- [VueJS](https://vuejs.org/)
 
 
 ## Getting started
@@ -38,6 +39,14 @@ To collect data from all the sensors, you will need to run each of them (Pressur
 Then, run the subscriber ``go run subDatabase.go``
 
 Your subscriber shall now retrieve data from the sensors.
+
+**Run API with :**
+- `go run .\cmd\Main\main.go`
+
+**To run client :**
+- `cd .\client\`
+- If it is the first time you lauch the client : `npm install`
+- `npm run serve`
 
 ## Contributors
 
